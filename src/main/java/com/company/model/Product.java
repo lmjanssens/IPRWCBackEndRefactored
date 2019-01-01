@@ -10,6 +10,7 @@ public class Product implements Principal {
     @Length(min = 1, max = 100)
     private String name;
 
+    @NotEmpty
     private String description;
 
     private double price;
