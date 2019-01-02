@@ -12,11 +12,13 @@ public class UserDAO {
         User student = new User();
         student.setUsername("student");
         student.setPassword("iprwcstudent");
+        student.setEmail("student@user.com");
         student.setRoles(new String[] { "NORMAL" });
 
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword("iprwcadmin");
+        admin.setEmail("admin@user.com");
         admin.setRoles(new String[] { "NORMAL", "ADMIN"});
 
         users = new ArrayList<>();
