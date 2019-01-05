@@ -1,6 +1,7 @@
 package com.company.model;
 
 import com.company.View;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -10,7 +11,26 @@ import java.security.Principal;
 
 public class User implements Principal {
     @NotEmpty
-    @Length(min = 8)
+    @JsonView(View.Public.class)
+    private int id;
+
+    @NotEmpty
+    @Length(min = 6, max = 6)
+    private String postalCode;
+
+    @NotEmpty
+    @Length(max = 30)
+    private String firstName;
+
+    @Length(max = 15)
+    private String middleName;
+
+    @NotEmpty
+    @Length(max = 30)
+    private String lastName;
+
+    @NotEmpty
+    @Length(min = 8, max = 30)
     @JsonView(View.Public.class)
     private String password;
 
@@ -20,6 +40,7 @@ public class User implements Principal {
     private String email;
 
     @NotEmpty
+    @Length(max = 30)
     @JsonView(View.Public.class)
     private String username;
 
@@ -27,8 +48,49 @@ public class User implements Principal {
     private String[] roles;
 
     @Override
+    @JsonIgnore
     public String getName() {
         return null;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
