@@ -19,6 +19,10 @@ public class User implements Principal {
     private String postalCode;
 
     @NotEmpty
+    @Length(max = 50)
+    private String address;
+
+    @NotEmpty
     @Length(max = 30)
     private String firstName;
 
@@ -31,7 +35,7 @@ public class User implements Principal {
 
     @NotEmpty
     @Length(min = 8, max = 30)
-    @JsonView(View.Public.class)
+    @JsonView(View.Private.class)
     private String password;
 
     @NotEmpty
@@ -67,6 +71,14 @@ public class User implements Principal {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getFirstName() {
