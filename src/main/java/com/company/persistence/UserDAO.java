@@ -15,8 +15,8 @@ public class UserDAO {
 
     @Language("PostgreSQL")
     public String getInsertQuery() {
-        return "INSERT INTO consumer (postalcode, firstname, middlename, lastname, username, password)\n" +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        return "INSERT INTO consumer (postalcode, firstname, middlename, lastname, username, password, address, email)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     @Language("PostgreSQL")
@@ -29,10 +29,27 @@ public class UserDAO {
         return "UPDATE consumer\n" +
                 "SET postalcode = ?, " +
                 "firstname = ?, " +
-                "middlename = ? ," +
+                "middlename = ?, " +
                 "lastname = ?, " +
                 "username = ?, " +
-                "password = ?";
+                "password = ?, " +
+                "address = ?, " +
+                "email = ?";
+    }
+
+    @Language("PostgreSQL")
+    public String getFindByIDQuery() {
+        return "SELECT id,\n" +
+                "postalcode,\n" +
+                "firstname,\n" +
+                "middlename,\n" +
+                "lastname,\n" +
+                "username,\n" +
+                "password,\n" +
+                "address,\n" +
+                "email\n" +
+                "FROM consumer\n" +
+                "WHERE id = ?";
     }
 
     public User insert(User user) {
@@ -43,6 +60,8 @@ public class UserDAO {
             statement.setString(4, user.getLastName());
             statement.setString(5, user.getUsername());
             statement.setString(6, user.getPassword());
+            statement.setString(7, user.getAddress());
+            statement.setString(8, user.getEmail());
 
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -63,6 +82,8 @@ public class UserDAO {
             statement.setString(4, user.getLastName());
             statement.setString(5, user.getUsername());
             statement.setString(6, user.getPassword());
+            statement.setString(7, user.getAddress());
+            statement.setString(8, user.getEmail());
 
             statement.execute();
         } catch (SQLException e) {
@@ -78,5 +99,26 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User findByID(int id) {
+        try (PreparedStatement statement = this.connection.prepareStatement(getFindByIDQuery())){
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return new User(resultSet.getInt("id"),
+                    resultSet.getString("postalcode"),
+                    resultSet.getString("address"),
+                    resultSet.getString("firstname"),
+                    resultSet.getString("middlename"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("email"),
+                    resultSet.getString("password"),
+                    resultSet.getString("username"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; //TODO: Return null is not supposed to be here, fix it :)
     }
 }

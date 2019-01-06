@@ -51,6 +51,20 @@ public class User implements Principal {
     @JsonView(View.Public.class)
     private String[] roles;
 
+    public User(int id, String postalCode, String address,
+                String firstName, String middleName, String lastName,
+                String password, String email, String username) {
+        this.id = id;
+        this.postalCode = postalCode;
+        this.address = address;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.username = username;
+    }
+
     @Override
     @JsonIgnore
     public String getName() {
@@ -73,17 +87,13 @@ public class User implements Principal {
         this.postalCode = postalCode;
     }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getAddress() { return address; }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() { return firstName; }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
