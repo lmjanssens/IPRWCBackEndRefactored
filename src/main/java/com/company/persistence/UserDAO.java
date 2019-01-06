@@ -1,52 +1,38 @@
 package com.company.persistence;
 
 import com.company.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.intellij.lang.annotations.Language;
 
 public class UserDAO {
-    private final List<User> users;
 
     public UserDAO() {
-        User student = new User();
-        student.setUsername("student");
-        student.setPassword("iprwcstudent");
-        student.setEmail("student@user.com");
-        student.setRoles(new String[] { "NORMAL" });
 
-        User admin = new User();
-        admin.setUsername("admin");
-        admin.setPassword("iprwcadmin");
-        admin.setEmail("admin@user.com");
-        admin.setRoles(new String[] { "NORMAL", "ADMIN"});
-
-        users = new ArrayList<>();
-        users.add(student);
-        users.add(admin);
     }
 
-    public List<User> getAll(){
-        return users;
+
+    @Language("PostgreSQL")
+    public String getInsertQuery() {
+        return "INSERT INTO consumer (id, postalcode, firstname, middlename, lastname, username, password)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
     }
 
-    public User get(int id) {
-        try {
-            return users.get(id);
-        } catch (IndexOutOfBoundsException exception) {
-            return null;
-        }
+    @Language("PostgreSQL")
+    public String getDeleteQuery() {
+        return "DELETE FROM consumer WHERE id = ?";
     }
 
-    public void add(User user) {
-        users.add(user);
+    @Language("PostgreSQL")
+    public String getUpdateQuery() {
+        return "UPDATE consumer\n" +
+                "SET postalcode = ?, " +
+                "firstname = ?, " +
+                "middlename = ? ," +
+                "lastname = ?, " +
+                "username = ?, " +
+                "password = ?";
     }
 
-    public void update(User user, int id) {
-        users.set(id, user);
-    }
+    public void insert(User user) {
 
-    public void delete(int id) {
-        users.remove(id);
     }
 }
