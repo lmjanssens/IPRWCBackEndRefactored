@@ -4,8 +4,8 @@ import java.util.Properties;
 
 public class DatabaseConfig {
     private final String url = "jdbc:postgresql://localhost/iprwc";
-    private final String username = "iprwc";
-    private final String password = "iprwcww";
+    private final String username = "postgres";
+    private final String password = "0000";
 
     public Properties getDatabaseConnectionProperties() {
         Properties properties = new Properties();

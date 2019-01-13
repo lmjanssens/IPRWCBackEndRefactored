@@ -26,8 +26,8 @@ public class UserService extends BaseService<User> {
         return userDAO.insert(user);
     }
 
-    public void delete(User user) {
-        userDAO.delete(user);
+    public void delete(int id) {
+        userDAO.delete(id);
     }
 
     public void update(User user) {

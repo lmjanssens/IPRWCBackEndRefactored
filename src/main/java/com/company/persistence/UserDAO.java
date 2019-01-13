@@ -107,9 +107,9 @@ public class UserDAO {
         }
     }
 
-    public void delete(User user) {
+    public void delete(int id) {
         try (PreparedStatement statement = this.connection.prepareStatement(getDeleteQuery())) {
-            statement.setInt(1, user.getId());
+            statement.setInt(1, id);
 
             statement.execute();
         } catch (SQLException e) {
