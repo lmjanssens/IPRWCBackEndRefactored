@@ -12,8 +12,6 @@ import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
-
 import java.util.Collection;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -51,14 +49,15 @@ public class UserResource {
         userService.insert(user);
     }
 //TODO: fix put method, parameter inconvenience
-//    @PUT
-//    @Path("/{id}")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @JsonView(View.Protected.class)
-//    @RolesAllowed("GUEST")
-//    public void update(@PathParam("id") int id, @Auth User authenticator, User user) {
-//        userService.update(authenticator, id, user);
-//    }
+@PUT
+@Path("/{id}")
+@Consumes(MediaType.APPLICATION_JSON)
+@JsonView(View.Protected.class)
+@RolesAllowed("GUEST")
+public void update(@PathParam("id") int id, @Auth User authenticator, @Valid User user) {
+    user.setId(authenticator.getId());
+    userService.update(user);
+}
 
     @DELETE
     @Path("/{id}")

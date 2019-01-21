@@ -1,0 +1,17 @@
+apiName: "IPRWC s1110698"
+
+assets:
+  mappings:
+    /assets: /
+  overrides:
+    /:../IPRWC-S1110698/
+
+server:
+  rootPath: /api/*
+  adminContextPath: /admin
+  applicationConnectors:
+  - type: http
+    port: 8080
+  adminConnectors:
+  - type: http
+    port: 8081

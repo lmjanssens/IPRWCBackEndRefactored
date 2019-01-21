@@ -24,7 +24,7 @@ public interface Dao<T> {
 
     T insert(T model);
 
-    T findByID(int id);
+    T findByID(int id) throws SQLException;
 
     T createEntity(ResultSet resultset) throws SQLException;
 

@@ -14,18 +14,20 @@ public class UserDAO implements Dao<User> {
         this.connection = connection;
     }
 
-
+    @Override
     @Language("PostgreSQL")
     public String getInsertQuery() {
         return "INSERT INTO consumer (postalcode, firstname, middlename, lastname, username, password, address, email)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
+    @Override
     @Language("PostgreSQL")
     public String getDeleteQuery() {
         return "DELETE FROM consumer WHERE id = ?";
     }
 
+    @Override
     @Language("PostgreSQL")
     public String getUpdateQuery() {
         return "UPDATE consumer\n" +
@@ -39,6 +41,7 @@ public class UserDAO implements Dao<User> {
                 "email = ?";
     }
 
+    @Override
     @Language("PostgreSQL")
     public String getFindByIDQuery() {
         return "SELECT id,\n" +
@@ -54,6 +57,7 @@ public class UserDAO implements Dao<User> {
                 "WHERE id = ?";
     }
 
+    @Override
     @Language("PostgreSQL")
     public String getAllQuery() {
         return "SELECT id,\n" +
@@ -68,6 +72,22 @@ public class UserDAO implements Dao<User> {
                 "FROM consumer";
     }
 
+    @Language("PostgreSQL")
+    public String getFindByEmailQuery() {
+        return "SELECT id,\n" +
+                "postalcode,\n" +
+                "firstname,\n" +
+                "middlename,\n" +
+                "lastname,\n" +
+                "username,\n" +
+                "password,\n" +
+                "address,\n" +
+                "email\n" +
+                "FROM consumer\n" +
+                "WHERE email = ?";
+    }
+
+    @Override
     public User insert(User user) {
         try (PreparedStatement statement = this.connection.prepareStatement(getInsertQuery(), Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getPostalCode());
@@ -90,6 +110,7 @@ public class UserDAO implements Dao<User> {
         return user;
     }
 
+    @Override
     public void update(User user) {
         try (PreparedStatement statement = this.connection.prepareStatement(getUpdateQuery())) {
             statement.setString(1, user.getPostalCode());
@@ -107,6 +128,7 @@ public class UserDAO implements Dao<User> {
         }
     }
 
+    @Override
     public void delete(int id) {
         try (PreparedStatement statement = this.connection.prepareStatement(getDeleteQuery())) {
             statement.setInt(1, id);
@@ -117,7 +139,8 @@ public class UserDAO implements Dao<User> {
         }
     }
 
-    public User findByID(int id) {
+    @Override
+    public User findByID(int id) throws SQLException {
         try (PreparedStatement statement = this.connection.prepareStatement(getFindByIDQuery())) {
             statement.setInt(1, id);
 
@@ -132,13 +155,10 @@ public class UserDAO implements Dao<User> {
                     resultSet.getString("email"),
                     resultSet.getString("password"),
                     resultSet.getString("username"));
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null; //TODO: Return null is not supposed to be here, fix it :)
     }
 
-    //TODO: add close statements(connections and queries)
+    @Override
     public List<User> getAll() {
         ArrayList<User> users = new ArrayList<>();
 
@@ -153,6 +173,7 @@ public class UserDAO implements Dao<User> {
         return users;
     }
 
+    @Override
     public User createEntity(ResultSet resultSet) throws SQLException {
         User user = new User(
                 resultSet.getInt("id"),
@@ -165,5 +186,19 @@ public class UserDAO implements Dao<User> {
                 resultSet.getString("password"),
                 resultSet.getString("username"));
         return user;
+    }
+
+    public User getByEmail(String email) throws SQLException {
+        try (PreparedStatement statement = this.connection.prepareStatement(getFindByEmailQuery())) {
+            statement.setString(1, email);
+            User user = new User();
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                user = createEntity(resultSet);
+            }
+
+            return user;
+        }
     }
 }

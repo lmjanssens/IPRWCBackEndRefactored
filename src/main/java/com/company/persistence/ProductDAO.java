@@ -70,7 +70,7 @@ public class ProductDAO implements Dao<Product> {
     }
 
     @Override
-    public Product findByID(int id) {
+    public Product findByID(int id) throws SQLException {
         try (PreparedStatement statement = this.connection.prepareStatement(getFindByIDQuery())) {
             statement.setInt(1, id);
 
@@ -82,10 +82,7 @@ public class ProductDAO implements Dao<Product> {
                     resultSet.getDouble("price"),
                     resultSet.getString("imagepath"),
                     resultSet.getInt("id"));
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null;  //TODO: ugh
     }
 
     @Override
