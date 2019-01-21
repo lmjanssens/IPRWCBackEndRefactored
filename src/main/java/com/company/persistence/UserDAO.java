@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserDAO implements Dao<User>{
     private Connection connection;
 
     public UserDAO(Connection connection) {
@@ -144,7 +144,7 @@ public class UserDAO {
         try (PreparedStatement statement = this.connection.prepareStatement(getAllQuery())) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                users.add(createUser(resultSet));
+                users.add(createEntity(resultSet));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class UserDAO {
         return users;
     }
 
-    public User createUser(ResultSet resultSet) throws SQLException {
+    public User createEntity(ResultSet resultSet) throws SQLException {
         User user = new User(
                 resultSet.getInt("id"),
                 resultSet.getString("postalcode"),
