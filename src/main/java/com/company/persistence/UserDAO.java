@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO implements Dao<User>{
+public class UserDAO implements Dao<User> {
     private Connection connection;
 
     public UserDAO(Connection connection) {
@@ -137,6 +137,7 @@ public class UserDAO implements Dao<User>{
         }
         return null; //TODO: Return null is not supposed to be here, fix it :)
     }
+
     //TODO: add close statements(connections and queries)
     public List<User> getAll() {
         ArrayList<User> users = new ArrayList<>();
