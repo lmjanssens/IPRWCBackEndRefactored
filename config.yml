@@ -4,7 +4,7 @@ assets:
   mappings:
     /assets: /
   overrides:
-    /:../IPRWC-S1110698/
+    /: ../IPRWC-S1110698/
 
 server:
   rootPath: /api/*

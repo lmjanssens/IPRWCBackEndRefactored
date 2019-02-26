@@ -2,6 +2,7 @@ package com.company.model;
 
 import com.company.View;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -69,80 +70,101 @@ public class User implements Principal {
 
     }
 
+    @JsonProperty
     @Override
     @JsonIgnore
     public String getName() {
         return null;
     }
 
+    @JsonProperty
     public int getId() {
         return id;
     }
 
+    @JsonProperty
     public void setId(int id) {
         this.id = id;
     }
 
+    @JsonProperty
     public String getPostalCode() {
         return postalCode;
     }
 
+    @JsonProperty
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
+    @JsonProperty
     public String getAddress() { return address; }
 
+    @JsonProperty
     public void setAddress(String address) {
         this.address = address;
     }
 
+    @JsonProperty
     public String getFirstName() { return firstName; }
 
+    @JsonProperty
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    @JsonProperty
     public String getMiddleName() {
         return middleName;
     }
 
+    @JsonProperty
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
+    @JsonProperty
     public String getLastName() {
         return lastName;
     }
 
+    @JsonProperty
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    @JsonProperty
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @JsonProperty
     public String getEmail() { return email; }
 
+    @JsonProperty
     public void setEmail(String email) { this.email = email; }
 
+    @JsonProperty
     public String getUsername() {
         return username;
     }
 
+    @JsonProperty
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @JsonProperty
     public String[] getRoles() {
         return roles;
     }
 
+    @JsonProperty
     public void setRoles(String[] roles) {
         this.roles = roles;
     }

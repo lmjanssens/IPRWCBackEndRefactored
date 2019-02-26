@@ -3,17 +3,13 @@ package com.company.database;
 import java.util.Properties;
 
 public class DatabaseConfig {
-    private final String url = "jdbc:postgresql://localhost/iprwc";
-    private final String username = "postgres";
-    private final String password = "0000";
-
-    public Properties getDatabaseConnectionProperties() {
+    static Properties getDatabaseConnectionProperties() {
         Properties properties = new Properties();
-        properties.put("user", username);
-        properties.put("password", password);
+        properties.put("user", "postgres");
+        properties.put("password", "0000");
 
         return properties;
     }
 
-    public String getUrl() { return this.url; }
+    static String getUrl() { return "jdbc:postgresql://localhost/iprwc"; }
 }

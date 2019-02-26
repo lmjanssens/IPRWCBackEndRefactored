@@ -4,6 +4,7 @@ import com.company.model.Product;
 import com.company.persistence.ProductDAO;
 import com.google.inject.Inject;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public class ProductService extends BaseService<Product> implements Service<Product> {
@@ -16,7 +17,14 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     public Collection<Product> getAll() { return productDao.getAll(); }
 
     @Override
-    public Product get(int id) { return requireResult(productDao.findByID(id)); }
+    public Product get(int id) {
+        try {
+            return requireResult(productDao.findByID(id));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public Product insert(Product product) { return productDao.insert(product); }

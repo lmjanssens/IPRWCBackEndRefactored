@@ -6,13 +6,12 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     private static Connection connection;
-    private DatabaseConfig databaseConfig;
 
     public Connection getConnection() {
         try {
             if (connection == null) {
-                connection = DriverManager.getConnection(databaseConfig.getUrl(),
-                             databaseConfig.getDatabaseConnectionProperties());
+                connection = DriverManager.getConnection(DatabaseConfig.getUrl(),
+                        DatabaseConfig.getDatabaseConnectionProperties());
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import com.company.model.User;
 import com.company.persistence.UserDAO;
 import com.google.inject.Inject;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public class UserService extends BaseService<User> implements Service<User> {
@@ -19,7 +20,12 @@ public class UserService extends BaseService<User> implements Service<User> {
 
     @Override
     public User get(int id) {
-        return requireResult(userDAO.findByID(id));
+        try {
+            return requireResult(userDAO.findByID(id));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

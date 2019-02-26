@@ -1,6 +1,7 @@
 package com.company.model;
 
 import com.company.View;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -42,36 +43,46 @@ public class Product implements Principal {
 
     }
 
+    @JsonProperty
     @Override
     public String getName() {
         return null;
     }
 
+    @JsonProperty
     public void setName(String name) {
         this.name = name;
     }
 
+    @JsonProperty
     public String getDescription() {
         return description;
     }
 
+    @JsonProperty
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @JsonProperty
     public double getPrice() {
         return price;
     }
 
+    @JsonProperty
     public void setPrice(double price) {
         this.price = price;
     }
 
+    @JsonProperty
     public String getImagePath() { return imagePath; }
 
+    @JsonProperty
     public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 
+    @JsonProperty
     public int getId() { return id; }
 
+    @JsonProperty
     public void setId(int id) { this.id = id; }
 }

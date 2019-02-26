@@ -14,6 +14,10 @@ public class UserDAO implements Dao<User> {
         this.connection = connection;
     }
 
+    public UserDAO() {
+
+    }
+
     @Override
     @Language("PostgreSQL")
     public String getInsertQuery() {
