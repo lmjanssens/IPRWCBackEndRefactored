@@ -1,12 +1,15 @@
 package com.company.persistence;
 
 import com.company.model.User;
+import com.company.persistence.mappers.UserMapper;
 import org.intellij.lang.annotations.Language;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@RegisterRowMapper(UserMapper.class)
 public class UserDAO implements Dao<User> {
     private Connection connection;
 

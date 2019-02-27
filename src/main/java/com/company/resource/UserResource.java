@@ -35,7 +35,7 @@ public class UserResource {
 
     @GET
     @JsonView(View.Public.class)
-    @RolesAllowed("student")
+//    @RolesAllowed("student")
     @Timed
     public Collection<User> retrieveAll() {
         LOGGER.info("testing");
@@ -45,7 +45,7 @@ public class UserResource {
     @GET
     @Path("/{id}")
     @JsonView(View.Public.class)
-    @RolesAllowed("student")
+//    @RolesAllowed("student")
     public User retrieve(@PathParam("id") IntParam id) {
         LOGGER.info("Retrieving contact with id: {}", id);
         return userService.get(id.get());

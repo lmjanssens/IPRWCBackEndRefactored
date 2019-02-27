@@ -1,5 +1,6 @@
 package com.company.service;
 
+import com.company.database.DatabaseConnection;
 import com.company.model.User;
 import com.company.persistence.UserDAO;
 import com.google.inject.Inject;
@@ -11,8 +12,8 @@ public class UserService extends BaseService<User> implements Service<User> {
     private final UserDAO userDAO;
 
     @Inject
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService() {
+        this.userDAO = new UserDAO(DatabaseConnection.getConnection());
     }
 
     @Override
