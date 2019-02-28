@@ -1,5 +1,6 @@
 package com.company.service;
 
+import com.company.database.DatabaseConnection;
 import com.company.model.Product;
 import com.company.persistence.ProductDAO;
 import com.google.inject.Inject;
@@ -11,7 +12,7 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     private final ProductDAO productDao;
 
     @Inject
-    public ProductService(ProductDAO productDao) { this.productDao = productDao; }
+    public ProductService() { this.productDao = new ProductDAO(DatabaseConnection.getConnection()); }
 
     @Override
     public Collection<Product> getAll() { return productDao.getAll(); }

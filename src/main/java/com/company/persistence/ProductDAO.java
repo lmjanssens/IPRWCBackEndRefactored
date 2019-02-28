@@ -11,6 +11,8 @@ public class ProductDAO implements Dao<Product> {
 
     public ProductDAO(Connection connection) { this.connection = connection; }
 
+    public ProductDAO() {}
+
     @Override
     public String getInsertQuery() {
         return "INSERT INTO product (name, description, price, imagepath)\n" +

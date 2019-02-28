@@ -1,8 +1,10 @@
 package com.company.resource;
 
 import com.codahale.metrics.annotation.Timed;
+import com.company.View;
 import com.company.model.Product;
 import com.company.service.ProductService;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,7 @@ public class ProductResource {
     public ProductResource(ProductService productService) { this.productService = productService; }
 
     @GET
-//    @JsonView(View.Public.class)
+    @JsonView(View.Public.class)
 //    @RolesAllowed("student")
     @Timed
     public Collection<Product> retrieveAll() {

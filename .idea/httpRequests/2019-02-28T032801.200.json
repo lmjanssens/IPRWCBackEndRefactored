@@ -1,0 +1,72 @@
+[
+  {
+    "name": null,
+    "description": "Met deze gloednieuwe Texas Instruments wetenschappelijke rekenmachine staat u altijd klaar voor iedere berekening!",
+    "price": 14.99,
+    "imagePath": "https://i.imgur.com/HAci3g7.jpg",
+    "id": 1
+  },
+  {
+    "name": null,
+    "description": "Laat uw creativiteit los met deze authentieke Hawaïaanse acoustische gitaar!",
+    "price": 50.5,
+    "imagePath": "https://i.imgur.com/8DZMUiE.png",
+    "id": 2
+  },
+  {
+    "name": null,
+    "description": "Altijd al een zanger willen worden? Pak uw kans! Deze microfoon is een ideaal artikel om te combineren met de acoustische gitaar.",
+    "price": 60.99,
+    "imagePath": "https://i.imgur.com/Deq0pwi.png",
+    "id": 3
+  },
+  {
+    "name": null,
+    "description": "Deze inkt pen is bedoeld voor de mensen die regelmatig schrijven. Dankzij een comfortabele grip kan men hier uren mee doorschrijven.",
+    "price": 40.99,
+    "imagePath": "https://i.imgur.com/9BZHAe3.png",
+    "id": 4
+  },
+  {
+    "name": null,
+    "description": "Voor de harde werkers onder ons. Een comfortabele boormachine die lang mee gaat is erg belangrijk tegenwoordig. Deze boormachine is gemaakt om lang mee te gaan in alle weersomstandigheden!",
+    "price": 130.0,
+    "imagePath": "https://i.imgur.com/LlYtTUL.png",
+    "id": 5
+  },
+  {
+    "name": null,
+    "description": "Maak een goede indruk op al uw vrienden met deze keyboard. Makkelijk mee te nemen met goede geluidskwaliteit.",
+    "price": 110.99,
+    "imagePath": "https://i.imgur.com/ZcdId9Y.png",
+    "id": 6
+  },
+  {
+    "name": null,
+    "description": "Tekenen met kleurpotloden is een mooie introductie tot de wereld van creativiteit! Deze set past perfect bij zowel beginnende als ervaren tekenaars.",
+    "price": 9.99,
+    "imagePath": "https://i.imgur.com/rIZFpoZ.png",
+    "id": 7
+  },
+  {
+    "name": null,
+    "description": "Altijd al een authentieke Bob Ross schilderij willen hebben? Koop dan dit mooie schilderij met een prachtig landschap.",
+    "price": 1500.99,
+    "imagePath": "https://i.imgur.com/iZfvWLn.png",
+    "id": 8
+  },
+  {
+    "name": null,
+    "description": "Ondanks de oude technologie worden ze steeds populairder. Ga mee met de trend en koop nu uw eigen platenspeler.",
+    "price": 99.99,
+    "imagePath": "https://i.imgur.com/HEmnjRc.png",
+    "id": 9
+  },
+  {
+    "name": null,
+    "description": "Een klassieke album om uw platenspeler een testdraai te geven. Thriller is een must-have voor alle muziek fans.",
+    "price": 25.99,
+    "imagePath": "https://i.imgur.com/kel0sol.png",
+    "id": 10
+  }
+]
