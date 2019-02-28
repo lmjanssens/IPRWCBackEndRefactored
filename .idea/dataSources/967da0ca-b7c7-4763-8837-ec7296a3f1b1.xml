@@ -33,7 +33,7 @@
       <ObjectId>33457</ObjectId>
       <StateNumber>783</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>811</IntrospectionStateNumber>
+      <IntrospectionStateNumber>813</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
       <Relations>sequence|table|33458|33460|1
@@ -126,7 +126,7 @@ sequence|table|33491|33493|5
       <StateNumber>352</StateNumber>
       <Owner>postgres</Owner>
       <IntrospectionTimestamp>2019-01-21.11:50:15.444</IntrospectionTimestamp>
-      <IntrospectionStateNumber>812</IntrospectionStateNumber>
+      <IntrospectionStateNumber>814</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>

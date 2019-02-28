@@ -46,7 +46,7 @@ public class Product implements Principal {
     @JsonProperty
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @JsonProperty

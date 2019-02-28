@@ -6,14 +6,12 @@ import com.company.model.Product;
 import com.company.service.ProductService;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.inject.Inject;
+import io.dropwizard.jersey.params.IntParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.Collection;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -34,7 +32,16 @@ public class ProductResource {
 //    @RolesAllowed("student")
     @Timed
     public Collection<Product> retrieveAll() {
-        LOGGER.info("testing");
+        LOGGER.info("Retrieving products.");
         return productService.getAll();
+    }
+
+    @GET
+    @Path("/{id}")
+    @JsonView(View.Public.class)
+//    @RolesAllowed("student")
+    public Product retrieve(@PathParam("id") IntParam id) {
+        LOGGER.info("Retrieving contact with id: {}", id);
+        return productService.get(id.get());
     }
 }

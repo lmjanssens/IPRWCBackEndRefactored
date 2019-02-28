@@ -1,17 +1,22 @@
 package com.company.persistence;
 
 import com.company.model.Product;
+import com.company.persistence.mappers.ProductMapper;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@RegisterRowMapper(ProductMapper.class)
 public class ProductDAO implements Dao<Product> {
     private Connection connection;
 
     public ProductDAO(Connection connection) { this.connection = connection; }
 
-    public ProductDAO() {}
+    public ProductDAO() {
+
+    }
 
     @Override
     public String getInsertQuery() {
