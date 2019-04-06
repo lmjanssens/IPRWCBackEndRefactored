@@ -3,15 +3,14 @@ package com.company;
 import com.company.authentication.AppAuthenticator;
 import com.company.model.User;
 import com.company.service.AuthenticationService;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Module;
 import com.hubspot.dropwizard.guice.GuiceBundle;
-import com.hubspot.dropwizard.guice.GuiceBundle.Builder;
 import io.dropwizard.Application;
-import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
-import io.dropwizard.bundles.assets.ConfiguredAssetsBundle;
+import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -21,51 +20,42 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
+import java.util.TimeZone;
 
 
 public class ApiApplication extends Application<ApiConfiguration> {
     private final Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 
-    private ConfiguredBundle assetsBundle;
-    private GuiceBundle guiceBundle;
+    private GuiceBundle<ApiConfiguration> guiceBundle;
 
-    private String name;
-
-    public static void main(String[] args) throws Exception {
-        new ApiApplication().run(args);
-    }
+    public static void main(String[] args) throws Exception { new ApiApplication().run(args); }
 
     @Override
-    public String getName() {
-        return name;
-    }
+    public String getName() { return "IPRWC s1110698"; }
 
     @Override
     public void initialize(Bootstrap<ApiConfiguration> bootstrap) {
-        assetsBundle = (ConfiguredBundle) new ConfiguredAssetsBundle("/assets/", "/client", "index.html");
-        guiceBundle = createGuiceBundle(ApiConfiguration.class, new ApiGuiceModule());
+        guiceBundle = createGuiceBundle(new ApiGuiceModule());
 
-        bootstrap.addBundle(assetsBundle);
         bootstrap.addBundle(guiceBundle);
+        bootstrap.addBundle(new JdbiExceptionsBundle());
     }
 
     @Override
     public void run(ApiConfiguration configuration, Environment environment) {
-        name = configuration.getApiName();
+        environment.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        environment.getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT+1"));
+        
 
-        logger.info(String.format("Set API name to %s", name));
-
-        setupAuthentication(environment);
-        configureClientFilter(environment);
+//        setupAuthentication(environment);
+//        configureClientFilter(environment);
     }
 
-    private GuiceBundle createGuiceBundle(Class<ApiConfiguration> configurationClass, Module module) {
-        Builder guiceBuilder = GuiceBundle.<ApiConfiguration>newBuilder()
-                .addModule(module)
-                .enableAutoConfig(new String[]{"com.company"})
-                .setConfigClass(configurationClass);
-
-        return guiceBuilder.build();
+    private GuiceBundle<ApiConfiguration> createGuiceBundle(Module module) {
+        return GuiceBundle
+                .defaultBuilder(ApiConfiguration.class)
+                .modules(module)
+                .build();
     }
 
     private void setupAuthentication(Environment environment) {

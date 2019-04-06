@@ -12,7 +12,9 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     private final ProductDAO productDao;
 
     @Inject
-    public ProductService() { this.productDao = new ProductDAO(DatabaseConnection.getConnection()); }
+    public ProductService(ProductDAO productDAO) {
+        this.productDao = new ProductDAO(DatabaseConnection.getConnection());
+    }
 
     @Override
     public Collection<Product> getAll() { return productDao.getAll(); }

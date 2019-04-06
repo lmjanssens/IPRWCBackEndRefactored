@@ -12,7 +12,7 @@ public class UserService extends BaseService<User> implements Service<User> {
     private final UserDAO userDAO;
 
     @Inject
-    public UserService() {
+    public UserService(UserDAO userDAO) {
         this.userDAO = new UserDAO(DatabaseConnection.getConnection());
     }
 
@@ -21,12 +21,23 @@ public class UserService extends BaseService<User> implements Service<User> {
 
     @Override
     public User get(int id) {
+//        try {
+//            return requireResult(userDAO.findByID(id));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+        User user = null;
         try {
-            return requireResult(userDAO.findByID(id));
+            user = userDAO.findByID(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return requireResult(user);
+    }
+
+    public User add(User user) {
+        return errorIfEmpty(get(userDAO.insert(user)));
     }
 
     @Override
