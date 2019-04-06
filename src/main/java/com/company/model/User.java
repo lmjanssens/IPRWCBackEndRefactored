@@ -17,21 +17,26 @@ public class User implements Principal {
 
     @NotEmpty
     @Length(min = 6, max = 6)
+    @JsonView(View.Public.class)
     private String postalCode;
 
     @NotEmpty
     @Length(max = 50)
+    @JsonView(View.Public.class)
     private String address;
 
     @NotEmpty
     @Length(max = 30)
+    @JsonView(View.Public.class)
     private String firstName;
 
     @Length(max = 15)
+    @JsonView(View.Public.class)
     private String middleName;
 
     @NotEmpty
     @Length(max = 30)
+    @JsonView(View.Public.class)
     private String lastName;
 
     @NotEmpty
@@ -49,21 +54,21 @@ public class User implements Principal {
     @JsonView(View.Public.class)
     private String username;
 
-    @JsonView(View.Public.class)
-    private String[] roles;
+//    @JsonView(View.Public.class)
+//    private String[] roles;
 
-    public User(int id, String postalCode, String address,
+    public User(int id, String postalCode,
                 String firstName, String middleName, String lastName,
-                String password, String email, String username) {
+                String username, String password, String address, String email) {
         this.id = id;
         this.postalCode = postalCode;
-        this.address = address;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.password = password;
-        this.email = email;
         this.username = username;
+        this.password = password;
+        this.address = address;
+        this.email = email;
     }
 
     public User() {
@@ -159,24 +164,24 @@ public class User implements Principal {
         this.username = username;
     }
 
-    @JsonProperty
-    public String[] getRoles() {
-        return roles;
-    }
-
-    @JsonProperty
-    public void setRoles(String[] roles) {
-        this.roles = roles;
-    }
-
-    public boolean hasRole(String roleName) {
-        if (roles != null) {
-            for (String role : roles) {
-                if (roleName.equals(role)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    @JsonProperty
+//    public String[] getRoles() {
+//        return roles;
+//    }
+//
+//    @JsonProperty
+//    public void setRoles(String[] roles) {
+//        this.roles = roles;
+//    }
+//
+//    public boolean hasRole(String roleName) {
+//        if (roles != null) {
+//            for (String role : roles) {
+//                if (roleName.equals(role)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 }

@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.authentication.AppAuthenticator;
 import com.company.model.User;
 import com.company.service.AuthenticationService;
 import com.google.inject.Module;
@@ -70,13 +71,12 @@ public class ApiApplication extends Application<ApiConfiguration> {
     private void setupAuthentication(Environment environment) {
         AuthenticationService authenticationService = guiceBundle.getInjector().getInstance(AuthenticationService.class);
         ApiUnauthorizedHandler unauthorizedHandler = guiceBundle.getInjector().getInstance(ApiUnauthorizedHandler.class);
+        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
 
         environment.jersey().register(new AuthDynamicFeature(
                 new BasicCredentialAuthFilter.Builder<User>()
-                        .setAuthenticator(authenticationService)
-                        .setAuthorizer(authenticationService)
-                        .setRealm("SUPER SECRET STUFF")
-                        .setUnauthorizedHandler(unauthorizedHandler)
+                        .setAuthenticator(authenticator)
+                        .setRealm("IPRWC")
                         .buildAuthFilter())
         );
 

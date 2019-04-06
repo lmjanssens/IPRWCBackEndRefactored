@@ -2,39 +2,34 @@ package com.company.service;
 
 import com.company.model.User;
 import com.company.persistence.UserDAO;
-import io.dropwizard.auth.AuthenticationException;
-import io.dropwizard.auth.Authenticator;
-import io.dropwizard.auth.Authorizer;
-import io.dropwizard.auth.basic.BasicCredentials;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.core.Response;
 import java.sql.SQLException;
-import java.util.Optional;
 
 @Singleton
-public class AuthenticationService implements Authenticator<BasicCredentials, User>, Authorizer<User> {
+public class AuthenticationService {
     private final UserDAO userDAO;
+    private static final String UNAUTHORIZED_MESSAGE = "Invalid username and/or password.";
+    private static final int LOG_ROUNDS = 11;
 
     @Inject
     public AuthenticationService(UserDAO userDAO) { this.userDAO = userDAO; }
 
-    @Override
-    public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
-        User user = null;
-        try {
-            user = userDAO.getByEmail(credentials.getUsername());
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public User authenticateUser(String user, String password) throws SQLException {
+        User subject = userDAO.getByUsername(user);
+        if (subject == null || !BCrypt.checkpw(password, subject.getPassword())) {
+            throw new ForbiddenException(
+                    UNAUTHORIZED_MESSAGE,
+                    Response
+                            .status(Response.Status.FORBIDDEN)
+                            .header("WWW-Authenticate", "Basic realm=\"IPRWC\", charset=\"UTF-8\"")
+                            .build()
+            );
         }
-
-        if (user != null && user.getPassword().equals(credentials.getPassword())) {
-            return Optional.of(user);
-        }
-
-        return Optional.empty();
+        return subject;
     }
-
-    @Override
-    public boolean authorize(User user, String roleName) { return user.hasRole(roleName); }
 }

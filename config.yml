@@ -10,8 +10,8 @@ server:
   rootPath: /api/*
   adminContextPath: /admin
   applicationConnectors:
-  - type: http
-    port: 8080
+    - type: http
+      port: 8080
   adminConnectors:
-  - type: http
-    port: 8081
+    - type: http
+      port: 8081

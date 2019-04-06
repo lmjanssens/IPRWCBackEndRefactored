@@ -25,7 +25,7 @@ public class UserDAO implements Dao<User> {
     @Language("PostgreSQL")
     public String getInsertQuery() {
         return "INSERT INTO consumer (postalcode, firstname, middlename, lastname, username, password, address, email)\n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (:postalCode, :firstName, :middleName, :lastName, :username, :password, :address, :email)";
     }
 
     @Override
@@ -94,6 +94,21 @@ public class UserDAO implements Dao<User> {
                 "WHERE email = ?";
     }
 
+    @Language("PostgreSQL")
+    public String getFindByUsernameQuery() {
+        return "SELECT id,\n" +
+                "postalcode,\n" +
+                "firstname,\n" +
+                "middlename,\n" +
+                "lastname,\n" +
+                "username,\n" +
+                "password,\n" +
+                "address,\n" +
+                "email\n" +
+                "FROM consumer\n" +
+                "WHERE username = ?";
+    }
+
     @Override
     public User insert(User user) {
         try (PreparedStatement statement = this.connection.prepareStatement(getInsertQuery(), Statement.RETURN_GENERATED_KEYS)) {
@@ -155,13 +170,13 @@ public class UserDAO implements Dao<User> {
             resultSet.next();
             return new User(resultSet.getInt("id"),
                     resultSet.getString("postalcode"),
-                    resultSet.getString("address"),
                     resultSet.getString("firstname"),
                     resultSet.getString("middlename"),
                     resultSet.getString("lastname"),
-                    resultSet.getString("email"),
+                    resultSet.getString("username"),
                     resultSet.getString("password"),
-                    resultSet.getString("username"));
+                    resultSet.getString("address"),
+                    resultSet.getString("email"));
         }
     }
 
@@ -195,17 +210,45 @@ public class UserDAO implements Dao<User> {
         return user;
     }
 
-    public User getByEmail(String email) throws SQLException {
-        try (PreparedStatement statement = this.connection.prepareStatement(getFindByEmailQuery())) {
-            statement.setString(1, email);
-            User user = new User();
-            ResultSet resultSet = statement.executeQuery();
+//    public User getByEmail(String email) throws SQLException {
+//        try (PreparedStatement statement = this.connection.prepareStatement(getFindByEmailQuery())) {
+//            statement.setString(1, email);
+//            User user = new User();
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                user = createEntity(resultSet);
+//            }
+//
+//            return user;
+//        }
+//    }
 
-            while (resultSet.next()) {
-                user = createEntity(resultSet);
-            }
+    public User getByUsername(String username) throws SQLException {
+        try (PreparedStatement statement = this.connection.prepareStatement(getFindByUsernameQuery())) {
+            statement.setString(1, username);
+
+            User user;
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            user = createEntity(resultSet);
 
             return user;
         }
     }
+
+//    public Product findByID(int id) throws SQLException {
+//        try (PreparedStatement statement = this.connection.prepareStatement(getFindByIDQuery())) {
+//            statement.setInt(1, id);
+//
+//            ResultSet resultSet = statement.executeQuery();
+//            resultSet.next();
+//            return new Product(
+//                    resultSet.getString("name"),
+//                    resultSet.getString("description"),
+//                    resultSet.getDouble("price"),
+//                    resultSet.getString("imagepath"),
+//                    resultSet.getInt("id"));
+//        }
+//    }
 }
