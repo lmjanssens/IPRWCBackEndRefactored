@@ -15,7 +15,6 @@ import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,8 +61,8 @@ public class ApiApplication extends Application<ApiConfiguration> {
                         .buildAuthFilter())
         );
 
-        environment.jersey().register(RolesAllowedDynamicFeature.class);
-        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
+//        jerseyEnv.register(RolesAllowedDynamicFeature.class);
+        jerseyEnv.register(new AuthValueFactoryProvider.Binder<>(User.class));
 
         jerseyEnv.register(UserResource.class);
         jerseyEnv.register(ProductResource.class);
