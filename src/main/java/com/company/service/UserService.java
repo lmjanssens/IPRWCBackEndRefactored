@@ -1,11 +1,11 @@
 package com.company.service;
 
-import com.company.database.DatabaseConnection;
 import com.company.model.User;
 import com.company.persistence.UserDAO;
 import com.google.inject.Inject;
 
-import java.sql.SQLException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 public class UserService extends BaseService<User> implements Service<User> {
@@ -13,45 +13,37 @@ public class UserService extends BaseService<User> implements Service<User> {
 
     @Inject
     public UserService(UserDAO userDAO) {
-        this.userDAO = new UserDAO(DatabaseConnection.getConnection());
+        this.userDAO = userDAO;
     }
 
     @Override
-    public Collection<User> getAll() { return userDAO.getAll(); }
+    public Collection<User> getAll() {
+        Collection<User> users = userDAO.list();
+        return users;
+    }
 
     @Override
-    public User get(int id) {
-//        try {
-//            return requireResult(userDAO.findByID(id));
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-        User user = null;
-        try {
-            user = userDAO.findByID(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public User get(Integer id) {
+        User user = userDAO.get(id);
         return requireResult(user);
     }
 
+    @Override
     public User add(User user) {
-        return errorIfEmpty(get(userDAO.insert(user)));
+        return errorIfEmpty(get(userDAO.add(user)));
     }
 
     @Override
-    public User insert(User user) {
-        return userDAO.insert(user);
+    public Response delete(Integer id) {
+        if (!userDAO.removeById(id)) {
+            throw new NotFoundException("User niet gevonden.");
+        }
+        return Response.ok().build();
     }
 
     @Override
-    public void delete(int id) {
-        userDAO.delete(id);
-    }
-
-    @Override
-    public void update(User user) {
-        userDAO.update(user);//TODO Add authenticator? Check example API
+    public User update(User user) {
+        userDAO.update(user);
+        return user;
     }
 }

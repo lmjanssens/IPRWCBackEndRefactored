@@ -1,15 +1,16 @@
 package com.company.service;
 
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 public interface Service<T> {
     Collection<T> getAll();
 
-    T get(int id);
+    T get(Integer id);
 
-    T insert(T model);
+    T add(T model);
 
-    void delete(int id);
+    Response delete(Integer id);
 
-    void update(T model);
+    T update(T model);
 }

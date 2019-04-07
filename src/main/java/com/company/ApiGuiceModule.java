@@ -1,7 +1,9 @@
 package com.company;
 
+import com.company.authentication.AppAuthenticator;
 import com.company.persistence.ProductDAO;
 import com.company.persistence.UserDAO;
+import com.company.service.AuthenticationService;
 import com.company.service.ProductService;
 import com.company.service.UserService;
 import com.google.inject.Binder;
@@ -25,6 +27,12 @@ public class ApiGuiceModule extends DropwizardAwareModule<ApiConfiguration> {
         final JdbiFactory factory = new JdbiFactory();
         jdbi = factory.build(environment, config.getDataSourceFactory(), "postgresql");
     }
+
+    @Provides
+    AppAuthenticator provideAppAuthenticator() { return new AppAuthenticator(provideAuthenticatorService()); }
+
+    @Provides
+    AuthenticationService provideAuthenticatorService() { return new AuthenticationService(provideUserDAO()); }
 
     @Provides
     UserDAO provideUserDAO() { return jdbi.onDemand(UserDAO.class); }

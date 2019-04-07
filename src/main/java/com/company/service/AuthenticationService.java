@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 
 @Singleton
 public class AuthenticationService {
@@ -19,8 +18,8 @@ public class AuthenticationService {
     @Inject
     public AuthenticationService(UserDAO userDAO) { this.userDAO = userDAO; }
 
-    public User authenticateUser(String user, String password) throws SQLException {
-        User subject = userDAO.getByUsername(user);
+    public User authenticateUser(String user, String password) {
+        User subject = userDAO.verify(user);
         if (subject == null || !BCrypt.checkpw(password, subject.getPassword())) {
             throw new ForbiddenException(
                     UNAUTHORIZED_MESSAGE,

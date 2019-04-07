@@ -5,6 +5,7 @@ import com.company.model.Product;
 import com.company.persistence.ProductDAO;
 import com.google.inject.Inject;
 
+import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -20,7 +21,7 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     public Collection<Product> getAll() { return productDao.getAll(); }
 
     @Override
-    public Product get(int id) {
+    public Product get(Integer id) {
         try {
             return requireResult(productDao.findByID(id));
         } catch (SQLException e) {
@@ -30,11 +31,17 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     }
 
     @Override
-    public Product insert(Product product) { return productDao.insert(product); }
+    public Product add(Product product) { return productDao.insert(product); }
 
     @Override
-    public void delete(int id) { productDao.delete(id); }
+    public Response delete(Integer id) {
+        productDao.delete(id);
+        return null;
+    }
 
     @Override
-    public void update(Product product) { productDao.update(product); }
+    public Product update(Product product) {
+        productDao.update(product);
+        return product;
+    }
 }
