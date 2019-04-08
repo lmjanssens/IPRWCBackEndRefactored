@@ -24,7 +24,7 @@ public interface UserDAO {
     @SqlQuery(SELECT_CREDENTIALS)
     User verify(@Bind("username") String username);
 
-    @SqlQuery(SELECT_QUERY)
+    @SqlQuery(SELECT_QUERY + " WHERE id = :id")
     User get(@Bind("id") Integer id);
 
     @SqlQuery(SELECT_QUERY)

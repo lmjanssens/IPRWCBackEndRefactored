@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.authentication.AppAuthenticator;
 import com.company.model.User;
+import com.company.resource.LoginResource;
 import com.company.resource.ProductResource;
 import com.company.resource.UserResource;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -66,5 +67,6 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
         jerseyEnv.register(UserResource.class);
         jerseyEnv.register(ProductResource.class);
+        jerseyEnv.register(LoginResource.class);
     }
 }

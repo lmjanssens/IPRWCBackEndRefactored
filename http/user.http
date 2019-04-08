@@ -15,14 +15,14 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "postalCode": "2689LO",
-  "firstName": "Jan",
-  "middleName": "van",
-  "lastName": "Ronde",
-  "username": "ditisjan",
-  "password": "waaromookniet",
-  "address": "Straat 123",
-  "email": "janzijnmain@mail.com"
+  "postalCode": "2322HU",
+  "firstName": "Niels",
+  "middleName": "der",
+  "lastName": "Vierkant",
+  "username": "ditisniels",
+  "password": "waaromookniet123",
+  "address": "Straat 12",
+  "email": "nielszijnmain@mail.com"
 }
 
 ###

@@ -11,9 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.security.Principal;
 
 public class User implements Principal {
-    @NotEmpty
-    @JsonView(View.Public.class)
-    private int id;
+    private Integer id = -1;
 
     @NotEmpty
     @Length(min = 6, max = 6)
@@ -30,8 +28,6 @@ public class User implements Principal {
     @JsonView(View.Public.class)
     private String firstName;
 
-    @Length(max = 15)
-    @JsonView(View.Public.class)
     private String middleName;
 
     @NotEmpty
@@ -53,9 +49,6 @@ public class User implements Principal {
     @Length(max = 30)
     @JsonView(View.Public.class)
     private String username;
-
-//    @JsonView(View.Public.class)
-//    private String[] roles;
 
     public User(int id, String postalCode,
                 String firstName, String middleName, String lastName,
@@ -163,25 +156,4 @@ public class User implements Principal {
     public void setUsername(String username) {
         this.username = username;
     }
-
-//    @JsonProperty
-//    public String[] getRoles() {
-//        return roles;
-//    }
-//
-//    @JsonProperty
-//    public void setRoles(String[] roles) {
-//        this.roles = roles;
-//    }
-//
-//    public boolean hasRole(String roleName) {
-//        if (roles != null) {
-//            for (String role : roles) {
-//                if (roleName.equals(role)) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 }

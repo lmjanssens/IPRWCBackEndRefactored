@@ -17,4 +17,5 @@ public class LoginResource {
     public User getUser(@Auth User authenticatedUser) {
         return authenticatedUser;
     }
+    //TODO: maak een aparte tabel voor users
 }
