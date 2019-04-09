@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.authentication.AppAuthenticator;
+import com.company.persistence.AccountDAO;
 import com.company.persistence.ProductDAO;
 import com.company.persistence.UserDAO;
 import com.company.service.AuthenticationService;
@@ -32,7 +33,10 @@ public class ApiGuiceModule extends DropwizardAwareModule<ApiConfiguration> {
     AppAuthenticator provideAppAuthenticator() { return new AppAuthenticator(provideAuthenticatorService()); }
 
     @Provides
-    AuthenticationService provideAuthenticatorService() { return new AuthenticationService(provideUserDAO()); }
+    AuthenticationService provideAuthenticatorService() { return new AuthenticationService(provideAccountDAO()); }
+
+    @Provides
+    AccountDAO provideAccountDAO() { return jdbi.onDemand(AccountDAO.class); }
 
     @Provides
     UserDAO provideUserDAO() { return jdbi.onDemand(UserDAO.class); }

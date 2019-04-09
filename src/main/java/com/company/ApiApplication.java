@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.authentication.AppAuthenticator;
+import com.company.model.Account;
 import com.company.model.User;
 import com.company.resource.LoginResource;
 import com.company.resource.ProductResource;
@@ -56,7 +57,7 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
         JerseyEnvironment jerseyEnv = environment.jersey();
         jerseyEnv.register(new AuthDynamicFeature(
-                new BasicCredentialAuthFilter.Builder<User>()
+                new BasicCredentialAuthFilter.Builder<Account>()
                         .setAuthenticator(authenticator)
                         .setRealm("IPRWC")
                         .buildAuthFilter())

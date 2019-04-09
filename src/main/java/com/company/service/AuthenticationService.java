@@ -1,7 +1,7 @@
 package com.company.service;
 
-import com.company.model.User;
-import com.company.persistence.UserDAO;
+import com.company.model.Account;
+import com.company.persistence.AccountDAO;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.inject.Inject;
@@ -11,15 +11,14 @@ import javax.ws.rs.core.Response;
 
 @Singleton
 public class AuthenticationService {
-    private final UserDAO userDAO;
+    private final AccountDAO accountDAO;
     private static final String UNAUTHORIZED_MESSAGE = "Invalid username and/or password.";
-    private static final int LOG_ROUNDS = 11;
 
     @Inject
-    public AuthenticationService(UserDAO userDAO) { this.userDAO = userDAO; }
+    public AuthenticationService(AccountDAO accountDAO) { this.accountDAO = accountDAO; }
 
-    public User authenticateUser(String user, String password) {
-        User subject = userDAO.verify(user);
+    public Account authenticateUser(String user, String password) {
+        Account subject = accountDAO.get(user);
         if (subject == null || !BCrypt.checkpw(password, subject.getPassword())) {
             throw new ForbiddenException(
                     UNAUTHORIZED_MESSAGE,

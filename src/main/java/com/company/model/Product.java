@@ -27,9 +27,7 @@ public class Product implements Principal {
     @JsonView(View.Public.class)
     private String imagePath;
 
-    @NotEmpty
-    @JsonView(View.Public.class)
-    private int id;
+    private Integer id = -1;
 
     public Product(String name, String description, double price, String imagepath, int id) {
         this.name = name;

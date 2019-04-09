@@ -36,7 +36,7 @@ public class UserService extends BaseService<User> implements Service<User> {
     @Override
     public Response delete(Integer id) {
         if (!userDAO.removeById(id)) {
-            throw new NotFoundException("User niet gevonden.");
+            throw new NotFoundException("Klant niet gevonden.");
         }
         return Response.ok().build();
     }
