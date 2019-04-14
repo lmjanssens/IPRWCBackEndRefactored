@@ -13,16 +13,12 @@ import java.util.Collection;
 
 @RegisterRowMapper(UserMapper.class)
 public interface UserDAO {
-    String SELECT_QUERY = "SELECT id, postalcode, firstname, middlename, lastname, username, password, address, email FROM consumer";
-    String INSERT_QUERY = "INSERT INTO consumer(postalcode, firstname, middlename, lastname, username, password, address, email) " +
-            "VALUES (:postalCode, :firstName, :middleName, :lastName, :username, :password, :address, :email)";
+    String SELECT_QUERY = "SELECT id, postalcode, firstname, middlename, lastname, address, email, town FROM consumer";
+    String INSERT_QUERY = "INSERT INTO consumer(postalcode, firstname, middlename, lastname, address, email, town) " +
+            "VALUES (:postalCode, :firstName, :middleName, :lastName, :address, :email, :town)";
     String DELETE_QUERY = "DELETE FROM consumer WHERE id = :id";
     String UPDATE_QUERY = "UPDATE consumer SET postalcode = :postalCode, firstname = :firstName, middlename = :middleName, " +
-            "lastname = :lastName, username = :username, password = :password, address = :address, email = :email";
-    String SELECT_CREDENTIALS = "SELECT username, password FROM consumer WHERE username = :username";
-
-    @SqlQuery(SELECT_CREDENTIALS)
-    User verify(@Bind("username") String username);
+            "lastname = :lastName, address = :address, email = :email, town = :town";
 
     @SqlQuery(SELECT_QUERY + " WHERE id = :id")
     User get(@Bind("id") Integer id);
