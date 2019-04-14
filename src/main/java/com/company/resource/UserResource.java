@@ -10,12 +10,11 @@ import io.dropwizard.jersey.params.IntParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -24,7 +23,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("/gebruikers")
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
-public class UserResource {
+public final class UserResource {
     private final UserService userService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
 
@@ -34,45 +33,33 @@ public class UserResource {
     }
 
     @GET
-    @JsonView(View.Public.class)
-//    @RolesAllowed("student")
     @Timed
     public Collection<User> retrieveAll() {
-        LOGGER.info("testing");
+        LOGGER.info("Retrieving all contacts.");
         return userService.getAll();
     }
 
     @GET
     @Path("/{id}")
-    @JsonView(View.Public.class)
-//    @RolesAllowed("student")
     public User retrieve(@PathParam("id") IntParam id) {
         LOGGER.info("Retrieving contact with id: {}", id);
         return userService.get(id.get());
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
-    public void create(@Valid User user) {
-        userService.insert(user);
-    }
+    @Timed
+    public User create(@Valid User user) { return userService.add(user); }
 
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @JsonView(View.Protected.class)
-    @RolesAllowed("GUEST")
-    public void update(@PathParam("id") int id, @Auth User authenticator, @Valid User user) {
-        user.setId(authenticator.getId());
-        userService.update(user);
+    public User update(@PathParam("id") IntParam id, @Auth User authenticator, @Valid User user) {
+        return userService.update(user);
     }
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("admin")
-    public void delete(@PathParam("id") int id) {
-        userService.delete(id);
+    public Response delete(@PathParam("id") IntParam id) {
+        return userService.delete(id.get());
     }
 
     @GET

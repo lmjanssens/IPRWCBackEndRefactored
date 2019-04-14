@@ -1,38 +1,45 @@
 package com.company.service;
 
-import com.company.database.DatabaseConnection;
 import com.company.model.Product;
 import com.company.persistence.ProductDAO;
 import com.google.inject.Inject;
 
-import java.sql.SQLException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 public class ProductService extends BaseService<Product> implements Service<Product> {
-    private final ProductDAO productDao;
+    private final ProductDAO productDAO;
 
     @Inject
-    public ProductService() { this.productDao = new ProductDAO(DatabaseConnection.getConnection()); }
+    public ProductService(ProductDAO productDAO) { this.productDAO = productDAO; }
 
     @Override
-    public Collection<Product> getAll() { return productDao.getAll(); }
-
-    @Override
-    public Product get(int id) {
-        try {
-            return requireResult(productDao.findByID(id));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Collection<Product> getAll() {
+        Collection<Product> products = productDAO.list();
+        return products;
     }
 
     @Override
-    public Product insert(Product product) { return productDao.insert(product); }
+    public Product get(Integer id) {
+        Product product = productDAO.get(id);
+        return requireResult(product);
+    }
 
     @Override
-    public void delete(int id) { productDao.delete(id); }
+    public Product add(Product product) { return errorIfEmpty(get(productDAO.add(product))); }
 
     @Override
-    public void update(Product product) { productDao.update(product); }
+    public Response delete(Integer id) {
+        if (!productDAO.removeById(id)) {
+            throw new NotFoundException("Product niet gevonden");
+        }
+        return Response.ok().build();
+    }
+
+    @Override
+    public Product update(Product product) {
+        productDAO.update(product);
+        return product;
+    }
 }

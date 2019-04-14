@@ -2,34 +2,23 @@ package com.company;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import io.dropwizard.bundles.assets.AssetsBundleConfiguration;
-import io.dropwizard.bundles.assets.AssetsConfiguration;
+import io.dropwizard.db.DataSourceFactory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-public class ApiConfiguration extends Configuration implements AssetsBundleConfiguration {
-    @NotEmpty
-    @JsonProperty
-    private String apiName;
-
+public class ApiConfiguration extends Configuration {
     @Valid
     @NotNull
-    @JsonProperty
-    private final AssetsConfiguration assets = new AssetsConfiguration();
+    private DataSourceFactory database = new DataSourceFactory();
 
-    public String getApiName() {
-        return apiName;
+    @JsonProperty("database")
+    public DataSourceFactory getDataSourceFactory() {
+        return database;
     }
 
-    public void setApiName(String apiName) {
-        this.apiName = apiName;
-    }
-
-    @Override
-    public AssetsConfiguration getAssetsConfiguration() {
-        return assets;
+    @JsonProperty("database")
+    public void setDataSourceFactory(DataSourceFactory factory) {
+        this.database = factory;
     }
 }

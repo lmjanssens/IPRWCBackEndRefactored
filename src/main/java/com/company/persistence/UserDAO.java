@@ -2,253 +2,37 @@ package com.company.persistence;
 
 import com.company.model.User;
 import com.company.persistence.mappers.UserMapper;
-import org.intellij.lang.annotations.Language;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @RegisterRowMapper(UserMapper.class)
-public class UserDAO implements Dao<User> {
-    private Connection connection;
+public interface UserDAO {
+    String SELECT_QUERY = "SELECT id, postalcode, firstname, middlename, lastname, address, email, town FROM consumer";
+    String INSERT_QUERY = "INSERT INTO consumer(postalcode, firstname, middlename, lastname, address, email, town) " +
+            "VALUES (:postalCode, :firstName, :middleName, :lastName, :address, :email, :town)";
+    String DELETE_QUERY = "DELETE FROM consumer WHERE id = :id";
+    String UPDATE_QUERY = "UPDATE consumer SET postalcode = :postalCode, firstname = :firstName, middlename = :middleName, " +
+            "lastname = :lastName, address = :address, email = :email, town = :town";
 
-    public UserDAO(Connection connection) {
-        this.connection = connection;
-    }
+    @SqlQuery(SELECT_QUERY + " WHERE id = :id")
+    User get(@Bind("id") Integer id);
 
-    public UserDAO() {
+    @SqlQuery(SELECT_QUERY)
+    Collection<User> list();
 
-    }
+    @SqlUpdate(UPDATE_QUERY)
+    void update(@BindBean User user);
 
-    @Override
-    @Language("PostgreSQL")
-    public String getInsertQuery() {
-        return "INSERT INTO consumer (postalcode, firstname, middlename, lastname, username, password, address, email)\n" +
-                "VALUES (:postalCode, :firstName, :middleName, :lastName, :username, :password, :address, :email)";
-    }
+    @SqlUpdate(DELETE_QUERY)
+    boolean removeById(@Bind("id") Integer id);
 
-    @Override
-    @Language("PostgreSQL")
-    public String getDeleteQuery() {
-        return "DELETE FROM consumer WHERE id = ?";
-    }
-
-    @Override
-    @Language("PostgreSQL")
-    public String getUpdateQuery() {
-        return "UPDATE consumer\n" +
-                "SET postalcode = ?, " +
-                "firstname = ?, " +
-                "middlename = ?, " +
-                "lastname = ?, " +
-                "username = ?, " +
-                "password = ?, " +
-                "address = ?, " +
-                "email = ?";
-    }
-
-    @Override
-    @Language("PostgreSQL")
-    public String getFindByIDQuery() {
-        return "SELECT id,\n" +
-                "postalcode,\n" +
-                "firstname,\n" +
-                "middlename,\n" +
-                "lastname,\n" +
-                "username,\n" +
-                "password,\n" +
-                "address,\n" +
-                "email\n" +
-                "FROM consumer\n" +
-                "WHERE id = ?";
-    }
-
-    @Override
-    @Language("PostgreSQL")
-    public String getAllQuery() {
-        return "SELECT id,\n" +
-                "postalcode,\n" +
-                "firstname,\n" +
-                "middlename,\n" +
-                "lastname,\n" +
-                "username,\n" +
-                "password,\n" +
-                "address,\n" +
-                "email\n" +
-                "FROM consumer";
-    }
-
-    @Language("PostgreSQL")
-    public String getFindByEmailQuery() {
-        return "SELECT id,\n" +
-                "postalcode,\n" +
-                "firstname,\n" +
-                "middlename,\n" +
-                "lastname,\n" +
-                "username,\n" +
-                "password,\n" +
-                "address,\n" +
-                "email\n" +
-                "FROM consumer\n" +
-                "WHERE email = ?";
-    }
-
-    @Language("PostgreSQL")
-    public String getFindByUsernameQuery() {
-        return "SELECT id,\n" +
-                "postalcode,\n" +
-                "firstname,\n" +
-                "middlename,\n" +
-                "lastname,\n" +
-                "username,\n" +
-                "password,\n" +
-                "address,\n" +
-                "email\n" +
-                "FROM consumer\n" +
-                "WHERE username = ?";
-    }
-
-    @Override
-    public User insert(User user) {
-        try (PreparedStatement statement = this.connection.prepareStatement(getInsertQuery(), Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, user.getPostalCode());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getMiddleName());
-            statement.setString(4, user.getLastName());
-            statement.setString(5, user.getUsername());
-            statement.setString(6, user.getPassword());
-            statement.setString(7, user.getAddress());
-            statement.setString(8, user.getEmail());
-
-            statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            resultSet.next();
-            int id = resultSet.getInt(1);
-            user.setId(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
-    @Override
-    public void update(User user) {
-        try (PreparedStatement statement = this.connection.prepareStatement(getUpdateQuery())) {
-            statement.setString(1, user.getPostalCode());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getMiddleName());
-            statement.setString(4, user.getLastName());
-            statement.setString(5, user.getUsername());
-            statement.setString(6, user.getPassword());
-            statement.setString(7, user.getAddress());
-            statement.setString(8, user.getEmail());
-
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        try (PreparedStatement statement = this.connection.prepareStatement(getDeleteQuery())) {
-            statement.setInt(1, id);
-
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public User findByID(int id) throws SQLException {
-        try (PreparedStatement statement = this.connection.prepareStatement(getFindByIDQuery())) {
-            statement.setInt(1, id);
-
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return new User(resultSet.getInt("id"),
-                    resultSet.getString("postalcode"),
-                    resultSet.getString("firstname"),
-                    resultSet.getString("middlename"),
-                    resultSet.getString("lastname"),
-                    resultSet.getString("username"),
-                    resultSet.getString("password"),
-                    resultSet.getString("address"),
-                    resultSet.getString("email"));
-        }
-    }
-
-    @Override
-    public List<User> getAll() {
-        ArrayList<User> users = new ArrayList<>();
-
-        try (PreparedStatement statement = this.connection.prepareStatement(getAllQuery())) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(createEntity(resultSet));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
-
-    @Override
-    public User createEntity(ResultSet resultSet) throws SQLException {
-        User user = new User(
-                resultSet.getInt("id"),
-                resultSet.getString("postalcode"),
-                resultSet.getString("address"),
-                resultSet.getString("firstname"),
-                resultSet.getString("middlename"),
-                resultSet.getString("lastname"),
-                resultSet.getString("email"),
-                resultSet.getString("password"),
-                resultSet.getString("username"));
-        return user;
-    }
-
-//    public User getByEmail(String email) throws SQLException {
-//        try (PreparedStatement statement = this.connection.prepareStatement(getFindByEmailQuery())) {
-//            statement.setString(1, email);
-//            User user = new User();
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while (resultSet.next()) {
-//                user = createEntity(resultSet);
-//            }
-//
-//            return user;
-//        }
-//    }
-
-    public User getByUsername(String username) throws SQLException {
-        try (PreparedStatement statement = this.connection.prepareStatement(getFindByUsernameQuery())) {
-            statement.setString(1, username);
-
-            User user;
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            user = createEntity(resultSet);
-
-            return user;
-        }
-    }
-
-//    public Product findByID(int id) throws SQLException {
-//        try (PreparedStatement statement = this.connection.prepareStatement(getFindByIDQuery())) {
-//            statement.setInt(1, id);
-//
-//            ResultSet resultSet = statement.executeQuery();
-//            resultSet.next();
-//            return new Product(
-//                    resultSet.getString("name"),
-//                    resultSet.getString("description"),
-//                    resultSet.getDouble("price"),
-//                    resultSet.getString("imagepath"),
-//                    resultSet.getInt("id"));
-//        }
-//    }
+    @GetGeneratedKeys
+    @SqlUpdate(INSERT_QUERY)
+    int add(@BindBean User user);
 }

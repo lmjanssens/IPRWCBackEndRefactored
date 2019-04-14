@@ -11,9 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.security.Principal;
 
 public class User implements Principal {
-    @NotEmpty
-    @JsonView(View.Public.class)
-    private int id;
+    private Integer id = -1;
 
     @NotEmpty
     @Length(min = 6, max = 6)
@@ -30,8 +28,6 @@ public class User implements Principal {
     @JsonView(View.Public.class)
     private String firstName;
 
-    @Length(max = 15)
-    @JsonView(View.Public.class)
     private String middleName;
 
     @NotEmpty
@@ -40,35 +36,24 @@ public class User implements Principal {
     private String lastName;
 
     @NotEmpty
-    @Length(min = 8, max = 30)
-    @JsonView(View.Private.class)
-    private String password;
-
-    @NotEmpty
     @Email
     @JsonView(View.Public.class)
     private String email;
 
     @NotEmpty
-    @Length(max = 30)
     @JsonView(View.Public.class)
-    private String username;
+    private String town;
 
-//    @JsonView(View.Public.class)
-//    private String[] roles;
-
-    public User(int id, String postalCode,
-                String firstName, String middleName, String lastName,
-                String username, String password, String address, String email) {
+    public User(int id, String postalCode, String firstName, String middleName,
+                String lastName, String address, String email, String town) {
         this.id = id;
         this.postalCode = postalCode;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.username = username;
-        this.password = password;
         this.address = address;
         this.email = email;
+        this.town = town;
     }
 
     public User() {
@@ -139,49 +124,18 @@ public class User implements Principal {
     }
 
     @JsonProperty
-    public String getPassword() {
-        return password;
-    }
-
-    @JsonProperty
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @JsonProperty
     public String getEmail() { return email; }
 
     @JsonProperty
     public void setEmail(String email) { this.email = email; }
 
     @JsonProperty
-    public String getUsername() {
-        return username;
+    public String getTown() {
+        return town;
     }
 
     @JsonProperty
-    public void setUsername(String username) {
-        this.username = username;
+    public void setTown(String town) {
+        this.town = town;
     }
-
-//    @JsonProperty
-//    public String[] getRoles() {
-//        return roles;
-//    }
-//
-//    @JsonProperty
-//    public void setRoles(String[] roles) {
-//        this.roles = roles;
-//    }
-//
-//    public boolean hasRole(String roleName) {
-//        if (roles != null) {
-//            for (String role : roles) {
-//                if (roleName.equals(role)) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 }

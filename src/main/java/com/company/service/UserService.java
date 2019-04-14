@@ -1,46 +1,49 @@
 package com.company.service;
 
-import com.company.database.DatabaseConnection;
 import com.company.model.User;
 import com.company.persistence.UserDAO;
 import com.google.inject.Inject;
 
-import java.sql.SQLException;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 import java.util.Collection;
 
 public class UserService extends BaseService<User> implements Service<User> {
     private final UserDAO userDAO;
 
     @Inject
-    public UserService() {
-        this.userDAO = new UserDAO(DatabaseConnection.getConnection());
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
-    public Collection<User> getAll() { return userDAO.getAll(); }
+    public Collection<User> getAll() {
+        Collection<User> users = userDAO.list();
+        return users;
+    }
 
     @Override
-    public User get(int id) {
-        try {
-            return requireResult(userDAO.findByID(id));
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public User get(Integer id) {
+        User user = userDAO.get(id);
+        return requireResult(user);
+    }
+
+    @Override
+    public User add(User user) {
+        return errorIfEmpty(get(userDAO.add(user)));
+    }
+
+    @Override
+    public Response delete(Integer id) {
+        if (!userDAO.removeById(id)) {
+            throw new NotFoundException("Klant niet gevonden.");
         }
-        return null;
+        return Response.ok().build();
     }
 
     @Override
-    public User insert(User user) {
-        return userDAO.insert(user);
-    }
-
-    @Override
-    public void delete(int id) {
-        userDAO.delete(id);
-    }
-
-    @Override
-    public void update(User user) {
-        userDAO.update(user);//TODO Add authenticator? Check example API
+    public User update(User user) {
+        userDAO.update(user);
+        return user;
     }
 }

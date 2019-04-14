@@ -1,16 +1,14 @@
 package com.company.authentication;
 
-import com.company.model.User;
+import com.company.model.Account;
 import com.company.service.AuthenticationService;
 import com.google.inject.Inject;
-import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
-public class AppAuthenticator implements Authenticator<BasicCredentials, User> {
+public class AppAuthenticator implements Authenticator<BasicCredentials, Account> {
     private final AuthenticationService authenticationService;
 
     @Inject
@@ -19,17 +17,11 @@ public class AppAuthenticator implements Authenticator<BasicCredentials, User> {
     }
 
     @Override
-    public Optional<User> authenticate(BasicCredentials credentials) throws AuthenticationException {
+    public Optional<Account> authenticate(BasicCredentials credentials) {
         String username = credentials.getUsername();
         String password = credentials.getPassword();
 
-        User user = null;
-        try {
-            user = authenticationService.authenticateUser(username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return Optional.of(user);
+        Account account = authenticationService.authenticateUser(username, password);
+        return Optional.of(account);
     }
 }

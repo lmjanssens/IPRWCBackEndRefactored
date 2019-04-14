@@ -1,6 +1,6 @@
 package com.company.resource;
 
-import com.company.model.User;
+import com.company.model.Account;
 import com.google.inject.Singleton;
 import io.dropwizard.auth.Auth;
 
@@ -12,9 +12,9 @@ import javax.ws.rs.core.MediaType;
 @Path("/login")
 @Produces(MediaType.APPLICATION_JSON)
 @Singleton
-public class LoginResource {
+public final class LoginResource {
     @GET
-    public User getUser(@Auth User authenticatedUser) {
-        return authenticatedUser;
+    public Account getUser(@Auth Account authenticatedAccount) {
+        return authenticatedAccount;
     }
 }
