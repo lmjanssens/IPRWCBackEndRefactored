@@ -27,13 +27,35 @@ public class Product implements Principal {
     @JsonView(View.Public.class)
     private String imagePath;
 
+    @NotEmpty
+    @Length(min = 13, max = 13)
+    @JsonView(View.Public.class)
+    private String ean;
+
+    @NotEmpty
+    @JsonView(View.Public.class)
+    private String brand;
+
+    @NotEmpty
+    @JsonView(View.Public.class)
+    private String detailedDescription;
+
+    @NotEmpty
+    @JsonView(View.Public.class)
+    private double shippingCost;
+
     private Integer id = -1;
 
-    public Product(String name, String description, double price, String imagepath, int id) {
+    public Product(String name, String description, double price, String imagePath, String ean, String brand,
+                   String detailedDescription, double shippingCost, int id) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.imagePath = imagepath;
+        this.imagePath = imagePath;
+        this.ean = ean;
+        this.brand = brand;
+        this.detailedDescription = detailedDescription;
+        this.shippingCost = shippingCost;
         this.id = id;
     }
 
@@ -73,14 +95,54 @@ public class Product implements Principal {
     }
 
     @JsonProperty
-    public String getImagePath() { return imagePath; }
+    public String getImagePath() {
+        return imagePath;
+    }
 
     @JsonProperty
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     @JsonProperty
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     @JsonProperty
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEan() {
+        return ean;
+    }
+
+    public void setEan(String ean) {
+        this.ean = ean;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getDetailedDescription() {
+        return detailedDescription;
+    }
+
+    public void setDetailedDescription(String detailedDescription) {
+        this.detailedDescription = detailedDescription;
+    }
+
+    public double getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(double shippingCost) {
+        this.shippingCost = shippingCost;
+    }
 }
