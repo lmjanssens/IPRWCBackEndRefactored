@@ -16,8 +16,7 @@ public class ProductService extends BaseService<Product> implements Service<Prod
 
     @Override
     public Collection<Product> getAll() {
-        Collection<Product> products = productDAO.list();
-        return products;
+        return productDAO.list();
     }
 
     @Override

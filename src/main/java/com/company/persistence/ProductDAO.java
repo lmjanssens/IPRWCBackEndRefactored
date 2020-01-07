@@ -34,5 +34,5 @@ public interface ProductDAO {
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int add(@BindBean Product user);
+    int add(@BindBean Product product);
 }

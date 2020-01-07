@@ -22,7 +22,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
 public class ProductResource {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
     private final ProductService productService;
 
     @Inject
@@ -38,7 +38,7 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     public Product retrieve(@PathParam("id") IntParam id) {
-        LOGGER.info("Retrieving contact with id: {}", id);
+        LOGGER.info("Retrieving product with id: {}", id);
         return productService.get(id.get());
     }
 
@@ -51,7 +51,7 @@ public class ProductResource {
     @DELETE
     @Path("/{productId}")
     public Response deleteProduct(@Auth User authenticatedUser, @PathParam("productId") IntParam intParam) {
-        LOGGER.info("Deleting product with id {}", intParam);
+        LOGGER.info("Deleting product with id: {}", intParam);
 
         return productService.delete(intParam.get());
     }
