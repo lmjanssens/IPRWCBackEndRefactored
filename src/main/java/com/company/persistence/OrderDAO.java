@@ -13,22 +13,22 @@ import java.util.Collection;
 
 @RegisterRowMapper(OrderMapper.class)
 public interface OrderDAO {
-    String SELECT_QUERY = "SELECT consumerid, productid, productname FROM orders";
+    String SELECT_QUERY = "SELECT consumerid, productid, productname, orderid FROM orders";
     String INSERT_QUERY = "INSERT INTO orders(consumerid, productid, productname) VALUES (:consumerId, :productId, :productName)";
-    String DELETE_QUERY = "DELETE FROM orders WHERE consumerid = :consumerId";
-    String UPDATE_QUERY = "UPDATE orders SET productid = :productId, productname = :productName";
+    String DELETE_QUERY = "DELETE FROM orders WHERE orderid = :orderId";
+    String UPDATE_QUERY = "UPDATE orders SET productid = :productId, productname = :productName, consumerid = :consumerId";
 
-    @SqlQuery(SELECT_QUERY + " WHERE consumerid = :consumerid")
-    Order get(@Bind("id") Integer id);
+    @SqlQuery(SELECT_QUERY + " WHERE orderid = :orderId")
+    Order get(@Bind("orderId") Integer id);
 
     @SqlQuery(SELECT_QUERY)
     Collection<Order> list();
 
     @SqlUpdate(UPDATE_QUERY)
-    void update(@BindBean Order user);
+    void update(@BindBean Order order);
 
     @SqlUpdate(DELETE_QUERY)
-    boolean removeById(@Bind("consumerid") Integer id);
+    boolean removeById(@Bind("orderId") Integer id);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)

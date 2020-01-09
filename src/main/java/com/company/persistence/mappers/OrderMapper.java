@@ -11,6 +11,7 @@ public class OrderMapper implements RowMapper<Order> {
     @Override
     public Order map(ResultSet resultSet, StatementContext statementContext) throws SQLException {
         return new Order(
+                resultSet.getInt("orderid"),
                 resultSet.getInt("consumerid"),
                 resultSet.getInt("productId"),
                 resultSet.getString("productName")

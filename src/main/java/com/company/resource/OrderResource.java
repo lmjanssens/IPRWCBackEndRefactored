@@ -49,8 +49,8 @@ public class OrderResource {
 
     @POST
     @Timed
-    public Order addOrder(Order product) {
-        return orderService.add(product);
+    public Order addOrder(Order order) {
+        return orderService.add(order);
     }
 
     @DELETE

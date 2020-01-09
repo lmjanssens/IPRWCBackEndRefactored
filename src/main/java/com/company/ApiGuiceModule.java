@@ -2,9 +2,11 @@ package com.company;
 
 import com.company.authentication.AppAuthenticator;
 import com.company.persistence.AccountDAO;
+import com.company.persistence.OrderDAO;
 import com.company.persistence.ProductDAO;
 import com.company.persistence.UserDAO;
 import com.company.service.AuthenticationService;
+import com.company.service.OrderService;
 import com.company.service.ProductService;
 import com.company.service.UserService;
 import com.google.inject.Binder;
@@ -39,15 +41,32 @@ public class ApiGuiceModule extends DropwizardAwareModule<ApiConfiguration> {
     AccountDAO provideAccountDAO() { return jdbi.onDemand(AccountDAO.class); }
 
     @Provides
-    UserDAO provideUserDAO() { return jdbi.onDemand(UserDAO.class); }
+    UserDAO provideUserDAO() {
+        return jdbi.onDemand(UserDAO.class);
+    }
 
     @Provides
-    UserService provideUserService() { return new UserService(provideUserDAO()); }
-
-
-    @Provides
-    ProductDAO provideProductDao() { return jdbi.onDemand((ProductDAO.class));}
+    UserService provideUserService() {
+        return new UserService(provideUserDAO());
+    }
 
     @Provides
-    ProductService provideProductService() { return new ProductService(provideProductDao()); }
+    ProductDAO provideProductDao() {
+        return jdbi.onDemand((ProductDAO.class));
+    }
+
+    @Provides
+    ProductService provideProductService() {
+        return new ProductService(provideProductDao());
+    }
+
+    @Provides
+    OrderDAO provideOrderDAO() {
+        return jdbi.onDemand(OrderDAO.class);
+    }
+
+    @Provides
+    OrderService provideOrderService() {
+        return new OrderService(provideOrderDAO());
+    }
 }

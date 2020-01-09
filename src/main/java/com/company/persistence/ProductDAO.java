@@ -27,7 +27,7 @@ public interface ProductDAO {
     Collection<Product> list();
 
     @SqlUpdate(UPDATE_QUERY)
-    void update(@BindBean Product user);
+    void update(@BindBean Product order);
 
     @SqlUpdate(DELETE_QUERY)
     boolean removeById(@Bind("id") Integer id);
