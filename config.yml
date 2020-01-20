@@ -2,9 +2,9 @@ apiName: "IPRWC s1110698"
 
 database:
   driverClass: org.postgresql.Driver
-  user: postgres
-  password: 0000
-  url: jdbc:postgresql://localhost/iprwc
+  user: doadmin
+  password: jbky7no07e3fb7r7
+  url: jdbc:postgresql://iprwc-do-user-6980273-0.db.ondigitalocean.com:25060/defaultdb
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s
