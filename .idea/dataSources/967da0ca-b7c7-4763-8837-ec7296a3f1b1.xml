@@ -33,8 +33,8 @@
       <Owner>postgres</Owner>
       <IntrospectionStateNumber>863</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|33458|33460|1
-sequence|table|33491|33493|5
+      <Relations>sequence|table|33491|33493|5
+sequence|table|33458|33460|1
 </Relations>
     </database>
     <database id="9" parent="1" name="irdmtest">

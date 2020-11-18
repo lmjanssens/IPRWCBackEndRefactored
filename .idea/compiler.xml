@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="IPRWCBackEnd" />
         <module name="IPRWC-BackEnd" />
+        <module name="IPRWC-API" />
       </profile>
     </annotationProcessing>
   </component>
