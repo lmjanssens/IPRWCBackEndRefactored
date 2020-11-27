@@ -68,7 +68,6 @@ public class ApiApplication extends Application<ApiConfiguration> {
                         .buildAuthFilter())
         );
 
-//        jerseyEnv.register(RolesAllowedDynamicFeature.class);
         jerseyEnv.register(new AuthValueFactoryProvider.Binder<>(User.class));
 
         jerseyEnv.register(UserResource.class);
