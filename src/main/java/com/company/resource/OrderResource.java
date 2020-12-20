@@ -2,7 +2,6 @@ package com.company.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.company.model.Order;
-import com.company.model.Product;
 import com.company.model.User;
 import com.company.service.OrderService;
 import com.google.inject.Inject;
@@ -11,11 +10,9 @@ import io.dropwizard.jersey.params.IntParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-
 import java.util.Collection;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -35,22 +32,22 @@ public class OrderResource {
 
     @GET
     @Timed
-    public Collection<Order> retrieveAll() {
+    public Collection<Order> getAllOrders() {
         LOGGER.info("Retrieving orders.");
         return orderService.getAll();
     }
 
     @GET
     @Path("/{id}")
-    public Order retrieve(@PathParam("id") IntParam id) {
+    public Order getOrderById(@PathParam("id") IntParam id) {
         LOGGER.info("Retrieving order with id: {}", id);
         return orderService.get(id.get());
     }
 
     @POST
     @Timed
-    public Order addOrder(Order order) {
-        return orderService.add(order);
+    public Order postOrder(Order order) {
+        return orderService.create(order);
     }
 
     @DELETE

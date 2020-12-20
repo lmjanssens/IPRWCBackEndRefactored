@@ -19,18 +19,18 @@ public interface AccountDAO {
     String DELETE_QUERY = "DELETE FROM account WHERE username = :username";
 
     @SqlQuery(SELECT_QUERY + " WHERE username = :username")
-    Account get(@Bind("username") String username);
+    Account getAccount(@Bind("username") String username);
 
     @SqlQuery(SELECT_QUERY)
-    Collection<Account> list();
+    Collection<Account> getAllAccounts();
 
     @SqlUpdate(UPDATE_QUERY)
-    void update(@BindBean Account account);
+    void updateAccountPassword(@BindBean Account account);
 
     @SqlUpdate(DELETE_QUERY)
-    boolean remove(@BindBean Account account);
+    boolean deleteAccount(@BindBean Account account);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int add(@BindBean Account account);
+    int createAccount(@BindBean Account account);
 }

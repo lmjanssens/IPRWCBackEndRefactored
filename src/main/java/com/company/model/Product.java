@@ -30,7 +30,7 @@ public class Product implements Principal {
     @NotEmpty
     @Length(min = 13, max = 13)
     @JsonView(View.Public.class)
-    private String ean;
+    private String EAN;
 
     @NotEmpty
     @JsonView(View.Public.class)
@@ -46,13 +46,13 @@ public class Product implements Principal {
 
     private Integer id = -1;
 
-    public Product(String name, String description, double price, String imagePath, String ean, String brand,
+    public Product(String name, String description, double price, String imagePath, String EAN, String brand,
                    String detailedDescription, double shippingCost, int id) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.imagePath = imagePath;
-        this.ean = ean;
+        this.EAN = EAN;
         this.brand = brand;
         this.detailedDescription = detailedDescription;
         this.shippingCost = shippingCost;
@@ -114,12 +114,12 @@ public class Product implements Principal {
         this.id = id;
     }
 
-    public String getEan() {
-        return ean;
+    public String getEAN() {
+        return EAN;
     }
 
-    public void setEan(String ean) {
-        this.ean = ean;
+    public void setEAN(String EAN) {
+        this.EAN = EAN;
     }
 
     public String getBrand() {

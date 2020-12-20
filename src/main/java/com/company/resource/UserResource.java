@@ -34,38 +34,40 @@ public final class UserResource {
 
     @GET
     @Timed
-    public Collection<User> retrieveAll() {
-        LOGGER.info("Retrieving all contacts.");
+    public Collection<User> getAllUsers() {
+        LOGGER.info("Retrieving all users.");
         return userService.getAll();
     }
 
     @GET
     @Path("/{id}")
-    public User retrieve(@PathParam("id") IntParam id) {
-        LOGGER.info("Retrieving contact with id: {}", id);
+    public User getUserById(@PathParam("id") IntParam id) {
+        LOGGER.info("Retrieving user with id: {}", id);
         return userService.get(id.get());
     }
 
     @POST
     @Timed
-    public User create(@Valid User user) { return userService.add(user); }
+    public User postUser(@Valid User user) {
+        return userService.create(user);
+    }
 
     @PUT
     @Path("/{id}")
-    public User update(@PathParam("id") IntParam id, @Auth User authenticator, @Valid User user) {
+    public User updateUser(@PathParam("id") IntParam id, @Auth User authenticator, @Valid User user) {
         return userService.update(user);
     }
 
     @DELETE
     @Path("/{id}")
-    public Response delete(@PathParam("id") IntParam id) {
+    public Response deleteUser(@PathParam("id") IntParam id) {
         return userService.delete(id.get());
     }
 
     @GET
     @Path("/me")
     @JsonView(View.Private.class)
-    public User authenticate(@Auth User authenticator) {
-        return authenticator;
+    public User authenticateUser(@Auth User authenticatedUser) {
+        return authenticatedUser;
     }
 }

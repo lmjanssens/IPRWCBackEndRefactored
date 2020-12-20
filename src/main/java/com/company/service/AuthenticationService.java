@@ -23,7 +23,7 @@ public class AuthenticationService {
 
     public Account authenticateUser(String user, String password) {
         LOGGER.info("Authenticating user...");
-        Account subject = accountDAO.get(user);
+        Account subject = accountDAO.getAccount(user);
         if (subject == null || !BCrypt.checkpw(password, subject.getPassword())) {
             LOGGER.info("User not successfully authenticated. Sending unauthorized message.");
             throw new ForbiddenException(

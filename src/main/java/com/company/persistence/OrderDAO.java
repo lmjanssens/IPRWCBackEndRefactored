@@ -19,18 +19,18 @@ public interface OrderDAO {
     String UPDATE_QUERY = "UPDATE orders SET productid = :productId, productname = :productName, consumerid = :consumerId";
 
     @SqlQuery(SELECT_QUERY + " WHERE orderid = :orderId")
-    Order get(@Bind("orderId") Integer id);
+    Order getOrder(@Bind("orderId") Integer id);
 
     @SqlQuery(SELECT_QUERY)
-    Collection<Order> list();
+    Collection<Order> getAllOrders();
 
     @SqlUpdate(UPDATE_QUERY)
-    void update(@BindBean Order order);
+    void updateOrder(@BindBean Order order);
 
     @SqlUpdate(DELETE_QUERY)
-    boolean removeById(@Bind("orderId") Integer id);
+    boolean deleteOrder(@Bind("orderId") Integer id);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int add(@BindBean Order order);
+    int createOrder(@BindBean Order order);
 }

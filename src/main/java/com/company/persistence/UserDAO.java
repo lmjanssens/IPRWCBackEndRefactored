@@ -21,18 +21,18 @@ public interface UserDAO {
             "lastname = :lastName, address = :address, email = :email, town = :town";
 
     @SqlQuery(SELECT_QUERY + " WHERE id = :id")
-    User get(@Bind("id") Integer id);
+    User getUser(@Bind("id") Integer id);
 
     @SqlQuery(SELECT_QUERY)
-    Collection<User> list();
+    Collection<User> getAllUsers();
 
     @SqlUpdate(UPDATE_QUERY)
-    void update(@BindBean User user);
+    void updateUser(@BindBean User user);
 
     @SqlUpdate(DELETE_QUERY)
-    boolean removeById(@Bind("id") Integer id);
+    boolean deleteUser(@Bind("id") Integer id);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int add(@BindBean User user);
+    int createUser(@BindBean User user);
 }

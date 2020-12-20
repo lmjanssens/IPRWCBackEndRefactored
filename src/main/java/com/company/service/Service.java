@@ -8,7 +8,7 @@ public interface Service<T> {
 
     T get(Integer id);
 
-    T add(T model);
+    T create(T model);
 
     Response delete(Integer id);
 

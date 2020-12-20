@@ -21,18 +21,18 @@ public interface ProductDAO {
             "ean = :ean, brand = :brand, detailddescription = :detailedDescription, shippingcost = :shippingCost";
 
     @SqlQuery(SELECT_QUERY + " WHERE id = :id")
-    Product get(@Bind("id") Integer id);
+    Product getProduct(@Bind("id") Integer id);
 
     @SqlQuery(SELECT_QUERY)
-    Collection<Product> list();
+    Collection<Product> getAllProducts();
 
     @SqlUpdate(UPDATE_QUERY)
-    void update(@BindBean Product order);
+    void updateProduct(@BindBean Product order);
 
     @SqlUpdate(DELETE_QUERY)
-    boolean removeById(@Bind("id") Integer id);
+    boolean deleteProduct(@Bind("id") Integer id);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int add(@BindBean Product product);
+    int createProduct(@BindBean Product product);
 }

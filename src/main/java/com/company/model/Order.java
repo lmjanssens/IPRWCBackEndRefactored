@@ -17,7 +17,7 @@ public class Order implements Principal {
 
     @NotEmpty
     @JsonView(View.Public.class)
-    private int productId;
+    private int productId; //TODO: if this were to be refactored (remove productName and extract name from productId), the database design and frontend would also need to be changed
 
     @NotEmpty
     @JsonView(View.Public.class)

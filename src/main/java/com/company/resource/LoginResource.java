@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 @Singleton
 public final class LoginResource {
     @GET
-    public Account getUser(@Auth Account authenticatedAccount) {
+    public Account getAuthenticatedAccount(@Auth Account authenticatedAccount) {
         return authenticatedAccount;
     }
 }

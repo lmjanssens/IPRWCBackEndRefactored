@@ -30,22 +30,22 @@ public class ProductResource {
 
     @GET
     @Timed
-    public Collection<Product> retrieveAll() {
+    public Collection<Product> getAllProducts() {
         LOGGER.info("Retrieving products.");
         return productService.getAll();
     }
 
     @GET
     @Path("/{id}")
-    public Product retrieve(@PathParam("id") IntParam id) {
+    public Product getProductById(@PathParam("id") IntParam id) {
         LOGGER.info("Retrieving product with id: {}", id);
         return productService.get(id.get());
     }
 
     @POST
     @Timed
-    public Product addProduct(Product product) {
-        return productService.add(product);
+    public Product postProduct(Product product) {
+        return productService.create(product);
     }
 
     @DELETE

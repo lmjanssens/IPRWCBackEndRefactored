@@ -18,23 +18,23 @@ public class OrderService extends BaseService<Order> implements Service<Order> {
 
     @Override
     public Collection<Order> getAll() {
-        return orderDAO.list();
+        return orderDAO.getAllOrders();
     }
 
     @Override
     public Order get(Integer id) {
-        Order order = orderDAO.get(id);
+        Order order = orderDAO.getOrder(id);
         return requireResult(order);
     }
 
     @Override
-    public Order add(Order order) {
-        return errorIfEmpty(get(orderDAO.add(order)));
+    public Order create(Order order) {
+        return errorIfEmpty(get(orderDAO.createOrder(order)));
     }
 
     @Override
     public Response delete(Integer id) {
-        if (!orderDAO.removeById(id)) {
+        if (!orderDAO.deleteOrder(id)) {
             throw new NotFoundException("Bestelling niet gevonden");
         }
         return Response.ok().build();
@@ -42,7 +42,7 @@ public class OrderService extends BaseService<Order> implements Service<Order> {
 
     @Override
     public Order update(Order order) {
-        orderDAO.update(order);
+        orderDAO.updateOrder(order);
         return order;
     }
 }

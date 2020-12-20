@@ -51,13 +51,13 @@ public class ApiGuiceModule extends DropwizardAwareModule<ApiConfiguration> {
     }
 
     @Provides
-    ProductDAO provideProductDao() {
+    ProductDAO provideProductDAO() {
         return jdbi.onDemand((ProductDAO.class));
     }
 
     @Provides
     ProductService provideProductService() {
-        return new ProductService(provideProductDao());
+        return new ProductService(provideProductDAO());
     }
 
     @Provides

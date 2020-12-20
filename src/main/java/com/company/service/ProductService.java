@@ -16,21 +16,23 @@ public class ProductService extends BaseService<Product> implements Service<Prod
 
     @Override
     public Collection<Product> getAll() {
-        return productDAO.list();
+        return productDAO.getAllProducts();
     }
 
     @Override
     public Product get(Integer id) {
-        Product product = productDAO.get(id);
+        Product product = productDAO.getProduct(id);
         return requireResult(product);
     }
 
     @Override
-    public Product add(Product product) { return errorIfEmpty(get(productDAO.add(product))); }
+    public Product create(Product product) {
+        return errorIfEmpty(get(productDAO.createProduct(product)));
+    }
 
     @Override
     public Response delete(Integer id) {
-        if (!productDAO.removeById(id)) {
+        if (!productDAO.deleteProduct(id)) {
             throw new NotFoundException("Product niet gevonden");
         }
         return Response.ok().build();
@@ -38,7 +40,7 @@ public class ProductService extends BaseService<Product> implements Service<Prod
 
     @Override
     public Product update(Product product) {
-        productDAO.update(product);
+        productDAO.updateProduct(product);
         return product;
     }
 }
