@@ -21,18 +21,18 @@ public interface ConsumerDAO {
             "lastname = :lastName, address = :address, email = :email, town = :town";
 
     @SqlQuery(SELECT_QUERY + " WHERE id = :id")
-    Consumer getUser(@Bind("id") Integer id);
+    Consumer getConsumer(@Bind("id") Integer id);
 
     @SqlQuery(SELECT_QUERY)
-    Collection<Consumer> getAllUsers();
+    Collection<Consumer> getAllConsumers();
 
     @SqlUpdate(UPDATE_QUERY)
-    void updateUser(@BindBean Consumer consumer);
+    void updateConsumer(@BindBean Consumer consumer);
 
     @SqlUpdate(DELETE_QUERY)
-    boolean deleteUser(@Bind("id") Integer id);
+    boolean deleteConsumer(@Bind("id") Integer id);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int createUser(@BindBean Consumer consumer);
+    int createConsumer(@BindBean Consumer consumer);
 }

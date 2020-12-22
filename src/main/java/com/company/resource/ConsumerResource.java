@@ -34,40 +34,40 @@ public final class ConsumerResource {
 
     @GET
     @Timed
-    public Collection<Consumer> getAllUsers() {
-        LOGGER.info("Getting all users.");
+    public Collection<Consumer> getAllConsumers() {
+        LOGGER.info("Getting all consumers.");
         return consumerService.getAll();
     }
 
     @GET
     @Path("/{id}")
-    public Consumer getUserById(@PathParam("id") IntParam id) {
-        LOGGER.info("Getting user with id: {}", id);
+    public Consumer getConsumerById(@PathParam("id") IntParam id) {
+        LOGGER.info("Getting consumer with id: {}", id);
         return consumerService.get(id.get());
     }
 
     @POST
     @Timed
-    public Consumer postUser(@Valid Consumer consumer) {
+    public Consumer postConsumer(@Valid Consumer consumer) {
         return consumerService.create(consumer);
     }
 
     @PUT
     @Path("/{id}")
-    public Consumer updateUser(@PathParam("id") IntParam id, @Auth Consumer authenticator, @Valid Consumer consumer) {
+    public Consumer updateConsumer(@PathParam("id") IntParam id, @Auth Consumer authenticator, @Valid Consumer consumer) {
         return consumerService.update(consumer);
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteUser(@PathParam("id") IntParam id) {
+    public Response deleteConsumer(@PathParam("id") IntParam id) {
         return consumerService.delete(id.get());
     }
 
     @GET
     @Path("/me")
     @JsonView(View.Private.class)
-    public Consumer authenticateUser(@Auth Consumer authenticatedConsumer) {
+    public Consumer authenticateConsumer(@Auth Consumer authenticatedConsumer) {
         return authenticatedConsumer;
     }
 }

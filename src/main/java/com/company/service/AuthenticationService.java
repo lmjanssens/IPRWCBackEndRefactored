@@ -19,13 +19,15 @@ public class AuthenticationService {
     private static final String UNAUTHORIZED_MESSAGE = "Invalid username and/or password.";
 
     @Inject
-    public AuthenticationService(AccountDAO accountDAO) { this.accountDAO = accountDAO; }
+    public AuthenticationService(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
 
-    public Account authenticateUser(String user, String password) {
-        LOGGER.info("Authenticating user...");
-        Account subject = accountDAO.getAccount(user);
+    public Account authenticateAccount(String username, String password) {
+        LOGGER.info("Authenticating account...");
+        Account subject = accountDAO.getAccount(username);
         if (subject == null || !BCrypt.checkpw(password, subject.getPassword())) {
-            LOGGER.info("User not successfully authenticated. Sending unauthorized message.");
+            LOGGER.info("Account not successfully authenticated. Sending unauthorized message.");
             throw new ForbiddenException(
                     UNAUTHORIZED_MESSAGE,
                     Response
@@ -34,7 +36,7 @@ public class AuthenticationService {
                             .build()
             );
         }
-        LOGGER.info("User successfully authenticated.");
+        LOGGER.info("Account successfully authenticated.");
         return subject;
     }
 }

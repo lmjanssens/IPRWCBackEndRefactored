@@ -18,24 +18,24 @@ public class ConsumerService extends BaseService<Consumer> implements Service<Co
 
     @Override
     public Collection<Consumer> getAll() {
-        Collection<Consumer> consumers = consumerDAO.getAllUsers();
+        Collection<Consumer> consumers = consumerDAO.getAllConsumers();
         return consumers;
     }
 
     @Override
     public Consumer get(Integer id) {
-        Consumer consumer = consumerDAO.getUser(id);
+        Consumer consumer = consumerDAO.getConsumer(id);
         return requireResult(consumer);
     }
 
     @Override
     public Consumer create(Consumer consumer) {
-        return errorIfEmpty(get(consumerDAO.createUser(consumer)));
+        return errorIfEmpty(get(consumerDAO.createConsumer(consumer)));
     }
 
     @Override
     public Response delete(Integer id) {
-        if (!consumerDAO.deleteUser(id)) {
+        if (!consumerDAO.deleteConsumer(id)) {
             throw new NotFoundException("Klant niet gevonden.");
         }
         return Response.ok().build();
@@ -43,7 +43,7 @@ public class ConsumerService extends BaseService<Consumer> implements Service<Co
 
     @Override
     public Consumer update(Consumer consumer) {
-        consumerDAO.updateUser(consumer);
+        consumerDAO.updateConsumer(consumer);
         return consumer;
     }
 }
