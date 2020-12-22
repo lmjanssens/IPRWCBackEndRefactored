@@ -2,13 +2,13 @@ package com.company;
 
 import com.company.authentication.AppAuthenticator;
 import com.company.persistence.AccountDAO;
+import com.company.persistence.ConsumerDAO;
 import com.company.persistence.OrderDAO;
 import com.company.persistence.ProductDAO;
-import com.company.persistence.UserDAO;
 import com.company.service.AuthenticationService;
+import com.company.service.ConsumerService;
 import com.company.service.OrderService;
 import com.company.service.ProductService;
-import com.company.service.UserService;
 import com.google.inject.Binder;
 import com.google.inject.Provides;
 import com.hubspot.dropwizard.guicier.DropwizardAwareModule;
@@ -41,13 +41,13 @@ public class ApiGuiceModule extends DropwizardAwareModule<ApiConfiguration> {
     AccountDAO provideAccountDAO() { return jdbi.onDemand(AccountDAO.class); }
 
     @Provides
-    UserDAO provideUserDAO() {
-        return jdbi.onDemand(UserDAO.class);
+    ConsumerDAO provideUserDAO() {
+        return jdbi.onDemand(ConsumerDAO.class);
     }
 
     @Provides
-    UserService provideUserService() {
-        return new UserService(provideUserDAO());
+    ConsumerService provideUserService() {
+        return new ConsumerService(provideUserDAO());
     }
 
     @Provides

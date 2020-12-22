@@ -2,7 +2,7 @@ package com.company.service;
 
 import com.company.model.Account;
 import com.company.persistence.AccountDAO;
-import com.company.resource.UserResource;
+import com.company.resource.ConsumerResource;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 @Singleton
 public class AuthenticationService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerResource.class);
     private final AccountDAO accountDAO;
     private static final String UNAUTHORIZED_MESSAGE = "Invalid username and/or password.";
 

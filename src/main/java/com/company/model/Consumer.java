@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.security.Principal;
 
-public class User implements Principal {
+public class Consumer implements Principal {
     private Integer id = -1;
 
     @NotEmpty
@@ -44,8 +44,8 @@ public class User implements Principal {
     @JsonView(View.Public.class)
     private String town;
 
-    public User(int id, String postalCode, String firstName, String middleName,
-                String lastName, String address, String email, String town) {
+    public Consumer(int id, String postalCode, String firstName, String middleName,
+                    String lastName, String address, String email, String town) {
         this.id = id;
         this.postalCode = postalCode;
         this.firstName = firstName;
@@ -56,7 +56,7 @@ public class User implements Principal {
         this.town = town;
     }
 
-    public User() {
+    public Consumer() {
 
     }
 

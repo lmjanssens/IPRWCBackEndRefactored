@@ -1,6 +1,6 @@
 package com.company.service;
 
-import com.company.model.User;
+import com.company.model.Consumer;
 
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.InternalServerErrorException;
@@ -14,8 +14,8 @@ public class BaseService<T> {
         return model;
     }
 
-    public void assertSelf(User user1, User user2) {
-        if (!user1.equals(user2)) {
+    public void assertSelf(Consumer consumer1, Consumer consumer2) {
+        if (!consumer1.equals(consumer2)) {
             throw new ForbiddenException();
         }
     }

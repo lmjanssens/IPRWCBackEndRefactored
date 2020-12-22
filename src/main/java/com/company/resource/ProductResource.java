@@ -1,8 +1,8 @@
 package com.company.resource;
 
 import com.codahale.metrics.annotation.Timed;
+import com.company.model.Consumer;
 import com.company.model.Product;
-import com.company.model.User;
 import com.company.service.ProductService;
 import com.google.inject.Inject;
 import io.dropwizard.auth.Auth;
@@ -50,7 +50,7 @@ public class ProductResource {
 
     @DELETE
     @Path("/{productId}")
-    public Response deleteProduct(@Auth User authenticatedUser, @PathParam("productId") IntParam intParam) {
+    public Response deleteProduct(@Auth Consumer authenticatedConsumer, @PathParam("productId") IntParam intParam) {
         LOGGER.info("Deleting product with id: {}", intParam);
 
         return productService.delete(intParam.get());

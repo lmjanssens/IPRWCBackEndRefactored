@@ -1,8 +1,8 @@
 package com.company.resource;
 
 import com.codahale.metrics.annotation.Timed;
+import com.company.model.Consumer;
 import com.company.model.Order;
-import com.company.model.User;
 import com.company.service.OrderService;
 import com.google.inject.Inject;
 import io.dropwizard.auth.Auth;
@@ -52,7 +52,7 @@ public class OrderResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteOrder(@Auth User authenticatedUser, @PathParam("id") IntParam intParam) {
+    public Response deleteOrder(@Auth Consumer authenticatedConsumer, @PathParam("id") IntParam intParam) {
         LOGGER.info("Deleting order with id: {}", intParam);
 
         return orderService.delete(intParam.get());

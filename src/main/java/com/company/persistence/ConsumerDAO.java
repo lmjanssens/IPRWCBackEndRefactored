@@ -1,7 +1,7 @@
 package com.company.persistence;
 
-import com.company.model.User;
-import com.company.persistence.mappers.UserMapper;
+import com.company.model.Consumer;
+import com.company.persistence.mappers.ConsumerMapper;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
@@ -11,8 +11,8 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.util.Collection;
 
-@RegisterRowMapper(UserMapper.class)
-public interface UserDAO {
+@RegisterRowMapper(ConsumerMapper.class)
+public interface ConsumerDAO {
     String SELECT_QUERY = "SELECT id, postalcode, firstname, middlename, lastname, address, email, town FROM consumer";
     String INSERT_QUERY = "INSERT INTO consumer(postalcode, firstname, middlename, lastname, address, email, town) " +
             "VALUES (:postalCode, :firstName, :middleName, :lastName, :address, :email, :town)";
@@ -21,18 +21,18 @@ public interface UserDAO {
             "lastname = :lastName, address = :address, email = :email, town = :town";
 
     @SqlQuery(SELECT_QUERY + " WHERE id = :id")
-    User getUser(@Bind("id") Integer id);
+    Consumer getUser(@Bind("id") Integer id);
 
     @SqlQuery(SELECT_QUERY)
-    Collection<User> getAllUsers();
+    Collection<Consumer> getAllUsers();
 
     @SqlUpdate(UPDATE_QUERY)
-    void updateUser(@BindBean User user);
+    void updateUser(@BindBean Consumer consumer);
 
     @SqlUpdate(DELETE_QUERY)
     boolean deleteUser(@Bind("id") Integer id);
 
     @GetGeneratedKeys
     @SqlUpdate(INSERT_QUERY)
-    int createUser(@BindBean User user);
+    int createUser(@BindBean Consumer consumer);
 }

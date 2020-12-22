@@ -2,11 +2,11 @@ package com.company;
 
 import com.company.authentication.AppAuthenticator;
 import com.company.model.Account;
-import com.company.model.User;
+import com.company.model.Consumer;
+import com.company.resource.ConsumerResource;
 import com.company.resource.LoginResource;
 import com.company.resource.OrderResource;
 import com.company.resource.ProductResource;
-import com.company.resource.UserResource;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Module;
 import com.hubspot.dropwizard.guicier.GuiceBundle;
@@ -68,9 +68,9 @@ public class ApiApplication extends Application<ApiConfiguration> {
                         .buildAuthFilter())
         );
 
-        jerseyEnv.register(new AuthValueFactoryProvider.Binder<>(User.class));
+        jerseyEnv.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
 
-        jerseyEnv.register(UserResource.class);
+        jerseyEnv.register(ConsumerResource.class);
         jerseyEnv.register(ProductResource.class);
         jerseyEnv.register(LoginResource.class);
         jerseyEnv.register(OrderResource.class);

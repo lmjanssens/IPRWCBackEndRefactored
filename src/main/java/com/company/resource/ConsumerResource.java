@@ -2,8 +2,8 @@ package com.company.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.company.View;
-import com.company.model.User;
-import com.company.service.UserService;
+import com.company.model.Consumer;
+import com.company.service.ConsumerService;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.jersey.params.IntParam;
@@ -23,51 +23,51 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("/gebruikers")
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
-public final class UserResource {
-    private final UserService userService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+public final class ConsumerResource {
+    private final ConsumerService consumerService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerResource.class);
 
     @Inject
-    public UserResource(UserService userService) {
-        this.userService = userService;
+    public ConsumerResource(ConsumerService consumerService) {
+        this.consumerService = consumerService;
     }
 
     @GET
     @Timed
-    public Collection<User> getAllUsers() {
+    public Collection<Consumer> getAllUsers() {
         LOGGER.info("Getting all users.");
-        return userService.getAll();
+        return consumerService.getAll();
     }
 
     @GET
     @Path("/{id}")
-    public User getUserById(@PathParam("id") IntParam id) {
+    public Consumer getUserById(@PathParam("id") IntParam id) {
         LOGGER.info("Getting user with id: {}", id);
-        return userService.get(id.get());
+        return consumerService.get(id.get());
     }
 
     @POST
     @Timed
-    public User postUser(@Valid User user) {
-        return userService.create(user);
+    public Consumer postUser(@Valid Consumer consumer) {
+        return consumerService.create(consumer);
     }
 
     @PUT
     @Path("/{id}")
-    public User updateUser(@PathParam("id") IntParam id, @Auth User authenticator, @Valid User user) {
-        return userService.update(user);
+    public Consumer updateUser(@PathParam("id") IntParam id, @Auth Consumer authenticator, @Valid Consumer consumer) {
+        return consumerService.update(consumer);
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteUser(@PathParam("id") IntParam id) {
-        return userService.delete(id.get());
+        return consumerService.delete(id.get());
     }
 
     @GET
     @Path("/me")
     @JsonView(View.Private.class)
-    public User authenticateUser(@Auth User authenticatedUser) {
-        return authenticatedUser;
+    public Consumer authenticateUser(@Auth Consumer authenticatedConsumer) {
+        return authenticatedConsumer;
     }
 }
