@@ -35,14 +35,14 @@ public final class UserResource {
     @GET
     @Timed
     public Collection<User> getAllUsers() {
-        LOGGER.info("Retrieving all users.");
+        LOGGER.info("Getting all users.");
         return userService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public User getUserById(@PathParam("id") IntParam id) {
-        LOGGER.info("Retrieving user with id: {}", id);
+        LOGGER.info("Getting user with id: {}", id);
         return userService.get(id.get());
     }
 

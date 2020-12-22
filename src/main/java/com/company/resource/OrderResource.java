@@ -33,14 +33,14 @@ public class OrderResource {
     @GET
     @Timed
     public Collection<Order> getAllOrders() {
-        LOGGER.info("Retrieving orders.");
+        LOGGER.info("Getting orders.");
         return orderService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public Order getOrderById(@PathParam("id") IntParam id) {
-        LOGGER.info("Retrieving order with id: {}", id);
+        LOGGER.info("Getting order with id: {}", id);
         return orderService.get(id.get());
     }
 

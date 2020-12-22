@@ -31,14 +31,14 @@ public class ProductResource {
     @GET
     @Timed
     public Collection<Product> getAllProducts() {
-        LOGGER.info("Retrieving products.");
+        LOGGER.info("Getting products.");
         return productService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public Product getProductById(@PathParam("id") IntParam id) {
-        LOGGER.info("Retrieving product with id: {}", id);
+        LOGGER.info("Getting product with id: {}", id);
         return productService.get(id.get());
     }
 
