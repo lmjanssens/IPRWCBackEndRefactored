@@ -18,32 +18,27 @@ import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import java.util.EnumSet;
 import java.util.TimeZone;
 
 
 public class ApiApplication extends Application<ApiConfiguration> {
-    private final Logger logger = LoggerFactory.getLogger(ApiApplication.class);
-
     private GuiceBundle<ApiConfiguration> guiceBundle;
 
-    public static void main(String[] args) throws Exception { new ApiApplication().run(args); }
+    public static void main(String[] args) throws Exception {
+        new ApiApplication().run(args);
+    }
 
     @Override
-    public String getName() { return "IPRWC s1110698"; }
+    public String getName() {
+        return "IPRWC s1110698";
+    }
 
     @Override
     public void initialize(Bootstrap<ApiConfiguration> bootstrap) {
         guiceBundle = createGuiceBundle(new ApiGuiceModule());
 
-        bootstrap.addBundle(guiceBundle);
-        bootstrap.addBundle(new JdbiExceptionsBundle());
+        this.addBundlesToBootstrap(bootstrap);
     }
 
     private GuiceBundle<ApiConfiguration> createGuiceBundle(Module module) {
@@ -55,39 +50,41 @@ public class ApiApplication extends Application<ApiConfiguration> {
 
     @Override
     public void run(ApiConfiguration configuration, Environment environment) {
+        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
+        JerseyEnvironment jerseyEnvironment = environment.jersey();
+
+        this.configureEnvironmentTimeSettings(environment);
+        this.registerAuthenticationClassesToJerseyEnvironment(jerseyEnvironment, authenticator);
+        this.registerResourceClassesToJerseyEnvironment(jerseyEnvironment);
+    }
+
+    private void addBundlesToBootstrap(Bootstrap<ApiConfiguration> bootstrap) {
+        bootstrap.addBundle(guiceBundle);
+        bootstrap.addBundle(new JdbiExceptionsBundle());
+    }
+
+    private void configureEnvironmentTimeSettings(Environment environment) {
+        // These settings are necessary to comply with ISO 8601
         environment.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         environment.getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT+1"));
+    }
 
-        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
-
-        JerseyEnvironment jerseyEnv = environment.jersey();
-        jerseyEnv.register(new AuthDynamicFeature(
+    private void registerAuthenticationClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment, AppAuthenticator authenticator) {
+        jerseyEnvironment.register(new AuthDynamicFeature(
                 new BasicCredentialAuthFilter.Builder<Account>()
                         .setAuthenticator(authenticator)
                         .setRealm("IPRWC")
                         .buildAuthFilter())
         );
 
-        jerseyEnv.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
-
-        jerseyEnv.register(ConsumerResource.class);
-        jerseyEnv.register(ProductResource.class);
-        jerseyEnv.register(LoginResource.class);
-        jerseyEnv.register(OrderResource.class);
+        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
     }
 
-    private void setupCORS(Environment environment) {
-
-        final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
-
-        // Configure CORS parameters
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin,Authorization");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,DELETE,HEAD");
-        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
-
-        // Add URL mapping
-        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-
+    private void registerResourceClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment) {
+        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
+        jerseyEnvironment.register(ConsumerResource.class);
+        jerseyEnvironment.register(ProductResource.class);
+        jerseyEnvironment.register(LoginResource.class);
+        jerseyEnvironment.register(OrderResource.class);
     }
 }

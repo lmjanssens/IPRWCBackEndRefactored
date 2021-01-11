@@ -18,8 +18,7 @@ public class ConsumerService extends BaseService<Consumer> implements Service<Co
 
     @Override
     public Collection<Consumer> getAll() {
-        Collection<Consumer> consumers = consumerDAO.getAllConsumers();
-        return consumers;
+        return consumerDAO.getAllConsumers();
     }
 
     @Override
@@ -35,9 +34,8 @@ public class ConsumerService extends BaseService<Consumer> implements Service<Co
 
     @Override
     public Response delete(Integer id) {
-        if (!consumerDAO.deleteConsumer(id)) {
-            throw new NotFoundException("Klant niet gevonden.");
-        }
+        this.throwNotFoundExceptionWhenDeletingNonExistentObject(id);
+
         return Response.ok().build();
     }
 
@@ -45,5 +43,12 @@ public class ConsumerService extends BaseService<Consumer> implements Service<Co
     public Consumer update(Consumer consumer) {
         consumerDAO.updateConsumer(consumer);
         return consumer;
+    }
+
+    @Override
+    public void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id) {
+        if (!consumerDAO.deleteConsumer(id)) {
+            throw new NotFoundException("Klant niet gevonden.");
+        }
     }
 }

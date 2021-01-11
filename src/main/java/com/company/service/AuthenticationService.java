@@ -25,9 +25,18 @@ public class AuthenticationService {
 
     public Account authenticateAccount(String username, String password) {
         LOGGER.info("Authenticating account...");
-        Account subject = accountDAO.getAccount(username);
-        if (subject == null || !BCrypt.checkpw(password, subject.getPassword())) {
+        Account accountToAuthenticate = accountDAO.getAccount(username);
+
+        this.throwForbiddenExceptionErrorIfAccountToAuthenticateIsNullOrPasswordIsIncorrect(accountToAuthenticate, password);
+        LOGGER.info("Account successfully authenticated.");
+
+        return accountToAuthenticate;
+    }
+
+    private void throwForbiddenExceptionErrorIfAccountToAuthenticateIsNullOrPasswordIsIncorrect(Account accountToAuthenticate, String password) {
+        if (accountToAuthenticate == null || !BCrypt.checkpw(password, accountToAuthenticate.getPassword())) {
             LOGGER.info("Account not successfully authenticated. Sending unauthorized message.");
+
             throw new ForbiddenException(
                     UNAUTHORIZED_MESSAGE,
                     Response
@@ -36,7 +45,5 @@ public class AuthenticationService {
                             .build()
             );
         }
-        LOGGER.info("Account successfully authenticated.");
-        return subject;
     }
 }

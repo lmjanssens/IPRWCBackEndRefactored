@@ -13,4 +13,6 @@ public interface Service<T> {
     Response delete(Integer id);
 
     T update(T model);
+
+    void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id);
 }

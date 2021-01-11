@@ -34,9 +34,8 @@ public class OrderService extends BaseService<Order> implements Service<Order> {
 
     @Override
     public Response delete(Integer id) {
-        if (!orderDAO.deleteOrder(id)) {
-            throw new NotFoundException("Bestelling niet gevonden");
-        }
+        this.throwNotFoundExceptionWhenDeletingNonExistentObject(id);
+
         return Response.ok().build();
     }
 
@@ -44,5 +43,12 @@ public class OrderService extends BaseService<Order> implements Service<Order> {
     public Order update(Order order) {
         orderDAO.updateOrder(order);
         return order;
+    }
+
+    @Override
+    public void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id) {
+        if (!orderDAO.deleteOrder(id)) {
+            throw new NotFoundException("Bestelling niet gevonden");
+        }
     }
 }

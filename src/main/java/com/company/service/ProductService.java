@@ -12,7 +12,9 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     private final ProductDAO productDAO;
 
     @Inject
-    public ProductService(ProductDAO productDAO) { this.productDAO = productDAO; }
+    public ProductService(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
     @Override
     public Collection<Product> getAll() {
@@ -32,9 +34,8 @@ public class ProductService extends BaseService<Product> implements Service<Prod
 
     @Override
     public Response delete(Integer id) {
-        if (!productDAO.deleteProduct(id)) {
-            throw new NotFoundException("Product niet gevonden");
-        }
+        this.throwNotFoundExceptionWhenDeletingNonExistentObject(id);
+
         return Response.ok().build();
     }
 
@@ -42,5 +43,12 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     public Product update(Product product) {
         productDAO.updateProduct(product);
         return product;
+    }
+
+    @Override
+    public void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id) {
+        if (!productDAO.deleteProduct(id)) {
+            throw new NotFoundException("Bestelling niet gevonden");
+        }
     }
 }
