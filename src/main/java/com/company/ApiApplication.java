@@ -48,43 +48,68 @@ public class ApiApplication extends Application<ApiConfiguration> {
                 .build();
     }
 
+    // Code smell: long method
     @Override
     public void run(ApiConfiguration configuration, Environment environment) {
-        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
-        JerseyEnvironment jerseyEnvironment = environment.jersey();
-
-        this.configureEnvironmentTimeSettings(environment);
-        this.registerAuthenticationClassesToJerseyEnvironment(jerseyEnvironment, authenticator);
-        this.registerResourceClassesToJerseyEnvironment(jerseyEnvironment);
-    }
-
-    private void addBundlesToBootstrap(Bootstrap<ApiConfiguration> bootstrap) {
-        bootstrap.addBundle(guiceBundle);
-        bootstrap.addBundle(new JdbiExceptionsBundle());
-    }
-
-    private void configureEnvironmentTimeSettings(Environment environment) {
-        // These settings are necessary to comply with ISO 8601
         environment.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         environment.getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT+1"));
-    }
 
-    private void registerAuthenticationClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment, AppAuthenticator authenticator) {
-        jerseyEnvironment.register(new AuthDynamicFeature(
+        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
+
+        JerseyEnvironment jerseyEnv = environment.jersey();
+        jerseyEnv.register(new AuthDynamicFeature(
                 new BasicCredentialAuthFilter.Builder<Account>()
                         .setAuthenticator(authenticator)
                         .setRealm("IPRWC")
                         .buildAuthFilter())
         );
 
-        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
+        jerseyEnv.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
+
+        jerseyEnv.register(ConsumerResource.class);
+        jerseyEnv.register(ProductResource.class);
+        jerseyEnv.register(LoginResource.class);
+        jerseyEnv.register(OrderResource.class);
     }
 
-    private void registerResourceClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment) {
-        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
-        jerseyEnvironment.register(ConsumerResource.class);
-        jerseyEnvironment.register(ProductResource.class);
-        jerseyEnvironment.register(LoginResource.class);
-        jerseyEnvironment.register(OrderResource.class);
+    // Refactored code smell:
+//    @Override
+//    public void run(ApiConfiguration configuration, Environment environment) {
+//        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
+//        JerseyEnvironment jerseyEnvironment = environment.jersey();
+//
+//        this.configureEnvironmentTimeSettings(environment);
+//        this.registerAuthenticationClassesToJerseyEnvironment(jerseyEnvironment, authenticator);
+//        this.registerResourceClassesToJerseyEnvironment(jerseyEnvironment);
+//    }
+//
+//    private void configureEnvironmentTimeSettings(Environment environment) {
+//        // These settings are necessary to comply with ISO 8601
+//        environment.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        environment.getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT+1"));
+//    }
+//
+//    private void registerAuthenticationClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment, AppAuthenticator authenticator) {
+//        jerseyEnvironment.register(new AuthDynamicFeature(
+//                new BasicCredentialAuthFilter.Builder<Account>()
+//                        .setAuthenticator(authenticator)
+//                        .setRealm("IPRWC")
+//                        .buildAuthFilter())
+//        );
+//
+//        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
+//    }
+//
+//    private void registerResourceClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment) {
+//        jerseyEnvironment.register(new AuthValueFactoryProvider.Binder<>(Consumer.class));
+//        jerseyEnvironment.register(ConsumerResource.class);
+//        jerseyEnvironment.register(ProductResource.class);
+//        jerseyEnvironment.register(LoginResource.class);
+//        jerseyEnvironment.register(OrderResource.class);
+//    }
+
+    private void addBundlesToBootstrap(Bootstrap<ApiConfiguration> bootstrap) {
+        bootstrap.addBundle(guiceBundle);
+        bootstrap.addBundle(new JdbiExceptionsBundle());
     }
 }

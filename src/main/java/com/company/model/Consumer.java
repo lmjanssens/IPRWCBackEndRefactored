@@ -56,6 +56,7 @@ public class Consumer implements Principal {
         this.town = town;
     }
 
+    // We need an empty constructor to serve as default constructor for Hibernate
     public Consumer() {
 
     }

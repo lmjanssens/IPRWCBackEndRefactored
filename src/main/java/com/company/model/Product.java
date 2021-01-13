@@ -59,6 +59,7 @@ public class Product implements Principal {
         this.id = id;
     }
 
+    // We need an empty constructor to serve as default constructor for Hibernate
     public Product() {
 
     }

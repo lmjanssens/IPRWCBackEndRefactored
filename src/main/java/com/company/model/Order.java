@@ -30,6 +30,7 @@ public class Order implements Principal {
         this.productName = productName;
     }
 
+    // We need an empty constructor to serve as default constructor for Hibernate
     public Order() {
 
     }
