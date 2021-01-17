@@ -46,6 +46,17 @@ public class ConsumerService extends BaseService<Consumer> implements Service<Co
     }
 
     @Override
+    public Response tryToDelete(Integer id) {
+        try {
+            return this.delete(id);
+        } catch (NotFoundException notFoundException) {
+            notFoundException.printStackTrace();
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @Override
     public void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id) {
         if (!consumerDAO.deleteConsumer(id)) {
             throw new NotFoundException("Klant niet gevonden.");

@@ -55,6 +55,6 @@ public class OrderResource {
     public Response deleteOrder(@Auth Consumer authenticatedConsumer, @PathParam("id") IntParam intParam) {
         LOGGER.info("Deleting order with id: {}", intParam);
 
-        return orderService.delete(intParam.get());
+        return orderService.tryToDelete(intParam.get());
     }
 }

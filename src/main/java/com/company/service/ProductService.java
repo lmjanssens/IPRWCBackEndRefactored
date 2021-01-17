@@ -46,6 +46,17 @@ public class ProductService extends BaseService<Product> implements Service<Prod
     }
 
     @Override
+    public Response tryToDelete(Integer id) { //TODO: duplicated code i guess
+        try {
+            return this.delete(id);
+        } catch (NotFoundException notFoundException) {
+            notFoundException.printStackTrace();
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @Override
     public void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id) {
         if (!productDAO.deleteProduct(id)) {
             throw new NotFoundException("Bestelling niet gevonden");

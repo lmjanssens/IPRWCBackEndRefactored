@@ -46,6 +46,17 @@ public class OrderService extends BaseService<Order> implements Service<Order> {
     }
 
     @Override
+    public Response tryToDelete(Integer id) {
+        try {
+            return this.delete(id);
+        } catch (NotFoundException notFoundException) {
+            notFoundException.printStackTrace();
+
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @Override
     public void throwNotFoundExceptionWhenDeletingNonExistentObject(Integer id) {
         if (!orderDAO.deleteOrder(id)) {
             throw new NotFoundException("Bestelling niet gevonden");

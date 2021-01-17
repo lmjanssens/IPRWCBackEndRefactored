@@ -30,22 +30,10 @@ public class ApiApplication extends Application<ApiConfiguration> {
     }
 
     @Override
-    public String getName() {
-        return "IPRWC s1110698";
-    }
-
-    @Override
     public void initialize(Bootstrap<ApiConfiguration> bootstrap) {
         guiceBundle = createGuiceBundle(new ApiGuiceModule());
 
         this.addBundlesToBootstrap(bootstrap);
-    }
-
-    private GuiceBundle<ApiConfiguration> createGuiceBundle(Module module) {
-        return GuiceBundle
-                .defaultBuilder(ApiConfiguration.class)
-                .modules(module)
-                .build();
     }
 
     // Code smell: long method
@@ -108,8 +96,20 @@ public class ApiApplication extends Application<ApiConfiguration> {
 //        jerseyEnvironment.register(OrderResource.class);
 //    }
 
+    private GuiceBundle<ApiConfiguration> createGuiceBundle(Module module) {
+        return GuiceBundle
+                .defaultBuilder(ApiConfiguration.class)
+                .modules(module)
+                .build();
+    }
+
     private void addBundlesToBootstrap(Bootstrap<ApiConfiguration> bootstrap) {
         bootstrap.addBundle(guiceBundle);
         bootstrap.addBundle(new JdbiExceptionsBundle());
+    }
+
+    @Override
+    public String getName() {
+        return "IPRWC s1110698";
     }
 }

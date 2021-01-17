@@ -61,7 +61,7 @@ public final class ConsumerResource {
     @DELETE
     @Path("/{id}")
     public Response deleteConsumer(@PathParam("id") IntParam id) {
-        return consumerService.delete(id.get());
+        return consumerService.tryToDelete(id.get());
     }
 
     @GET

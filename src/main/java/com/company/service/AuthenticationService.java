@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.Response;
+import java.util.Optional;
 
 @Singleton
 public class AuthenticationService {
@@ -33,14 +34,24 @@ public class AuthenticationService {
         return accountToAuthenticate;
     }
 
+    public Optional<Account> tryToAuthenticateAccount(String username, String password) {
+        try {
+            Account account = this.authenticateAccount(username, password);
+            return Optional.of(account);
+        } catch (ForbiddenException forbiddenException) {
+            forbiddenException.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
     private void throwForbiddenExceptionErrorIfAccountToAuthenticateIsNullOrPasswordIsIncorrect(Account accountToAuthenticate, String password) {
         if (accountToAuthenticate == null || !BCrypt.checkpw(password, accountToAuthenticate.getPassword())) {
             LOGGER.info("Account not successfully authenticated. Sending unauthorized message.");
 
             throw new ForbiddenException(
                     UNAUTHORIZED_MESSAGE,
-                    Response
-                            .status(Response.Status.FORBIDDEN)
+                    Response.status(Response.Status.FORBIDDEN)
                             .header("WWW-Authenticate", "Basic realm=\"IPRWC\", charset=\"UTF-8\"")
                             .build()
             );

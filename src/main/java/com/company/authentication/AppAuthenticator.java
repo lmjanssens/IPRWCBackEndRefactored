@@ -21,7 +21,6 @@ public class AppAuthenticator implements Authenticator<BasicCredentials, Account
         String username = credentials.getUsername();
         String password = credentials.getPassword();
 
-        Account account = authenticationService.authenticateAccount(username, password);
-        return Optional.of(account);
+        return authenticationService.tryToAuthenticateAccount(username, password);
     }
 }

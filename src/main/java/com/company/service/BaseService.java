@@ -8,6 +8,7 @@ public class BaseService<T> {
         if (model == null) {
             throw new NotFoundException();
         }
+
         return model;
     }
 
@@ -15,6 +16,7 @@ public class BaseService<T> {
         if (model == null) {
             throw new InternalServerErrorException();
         }
+
         return model;
     }
 }

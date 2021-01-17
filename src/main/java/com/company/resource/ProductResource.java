@@ -53,6 +53,6 @@ public class ProductResource {
     public Response deleteProduct(@Auth Consumer authenticatedConsumer, @PathParam("productId") IntParam intParam) {
         LOGGER.info("Deleting product with id: {}", intParam);
 
-        return productService.delete(intParam.get());
+        return productService.tryToDelete(intParam.get());
     }
 }
