@@ -36,8 +36,8 @@ public class AuthenticationService {
 
     public Optional<Account> tryToAuthenticateAccount(String username, String password) {
         try {
-            Account account = this.authenticateAccount(username, password);
-            return Optional.of(account);
+            Account accountToAuthenticate = this.authenticateAccount(username, password);
+            return Optional.of(accountToAuthenticate);
         } catch (ForbiddenException forbiddenException) {
             forbiddenException.printStackTrace();
         }

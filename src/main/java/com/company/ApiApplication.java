@@ -7,6 +7,7 @@ import com.company.resource.ConsumerResource;
 import com.company.resource.LoginResource;
 import com.company.resource.OrderResource;
 import com.company.resource.ProductResource;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.Module;
 import com.hubspot.dropwizard.guicier.GuiceBundle;
@@ -39,8 +40,9 @@ public class ApiApplication extends Application<ApiConfiguration> {
     // Code smell: long method
     @Override
     public void run(ApiConfiguration configuration, Environment environment) {
-        environment.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        environment.getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT+1"));
+        ObjectMapper environmentObjectMapper = environment.getObjectMapper();
+        environmentObjectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        environmentObjectMapper.setTimeZone(TimeZone.getTimeZone("GMT+1"));
 
         AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
 
@@ -65,16 +67,17 @@ public class ApiApplication extends Application<ApiConfiguration> {
 //    public void run(ApiConfiguration configuration, Environment environment) {
 //        AppAuthenticator authenticator = guiceBundle.getInjector().getInstance(AppAuthenticator.class);
 //        JerseyEnvironment jerseyEnvironment = environment.jersey();
+//        ObjectMapper environmentObjectMapper = environment.getObjectMapper();
 //
-//        this.configureEnvironmentTimeSettings(environment);
+//        this.configureEnvironmentTimeSettings(environmentObjectMapper);
 //        this.registerAuthenticationClassesToJerseyEnvironment(jerseyEnvironment, authenticator);
 //        this.registerResourceClassesToJerseyEnvironment(jerseyEnvironment);
 //    }
 //
-//    private void configureEnvironmentTimeSettings(Environment environment) {
+//    private void configureEnvironmentTimeSettings(ObjectMapper environmentObjectMapper) {
 //        // These settings are necessary to comply with ISO 8601
-//        environment.getObjectMapper().disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        environment.getObjectMapper().setTimeZone(TimeZone.getTimeZone("GMT+1"));
+//        environmentObjectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        environmentObjectMapper.setTimeZone(TimeZone.getTimeZone("GMT+1"));
 //    }
 //
 //    private void registerAuthenticationClassesToJerseyEnvironment(JerseyEnvironment jerseyEnvironment, AppAuthenticator authenticator) {
