@@ -35,38 +35,6 @@ public class Order implements Principal {
 
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getConsumerId() {
-        return consumerId;
-    }
-
-    public void setConsumerId(int consumerId) {
-        this.consumerId = consumerId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     @Override
     public String getName() {
         return null;

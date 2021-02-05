@@ -71,41 +71,6 @@ public class Product implements Principal {
     }
 
     @JsonProperty
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonProperty
-    public String getDescription() {
-        return description;
-    }
-
-    @JsonProperty
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @JsonProperty
-    public double getPrice() {
-        return price;
-    }
-
-    @JsonProperty
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @JsonProperty
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    @JsonProperty
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    @JsonProperty
     public int getId() {
         return id;
     }
@@ -113,37 +78,5 @@ public class Product implements Principal {
     @JsonProperty
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getEAN() {
-        return EAN;
-    }
-
-    public void setEAN(String EAN) {
-        this.EAN = EAN;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getDetailedDescription() {
-        return detailedDescription;
-    }
-
-    public void setDetailedDescription(String detailedDescription) {
-        this.detailedDescription = detailedDescription;
-    }
-
-    public double getShippingCost() {
-        return shippingCost;
-    }
-
-    public void setShippingCost(double shippingCost) {
-        this.shippingCost = shippingCost;
     }
 }
